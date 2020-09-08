@@ -34,6 +34,7 @@ class _ContentMain extends State<RegisterPage> {
   Future _selectDate() async {
     final DateTime picked = await showDatePicker(
         context: context,
+        initialDatePickerMode: DatePickerMode.year,
         initialDate: new DateTime(2000),
         firstDate: new DateTime(1975),
         lastDate: new DateTime(2010));
