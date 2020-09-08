@@ -26,6 +26,7 @@ class BodyTuneState extends State<BodyTune> {
         hintColor: Color(0xFF4D4B4C),
         errorColor: Color(0xFFB37166),
         fontFamily: 'Arial',
+        buttonColor: Color(0xFFB37166),
         textTheme: TextTheme(
           headline1: TextStyle(
             fontSize: 18.0,

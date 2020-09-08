@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:body_tune/helper.dart';
 import 'package:body_tune/register_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class _ContentMain extends State<SplashScreen> {
         children: [
           Container(
             margin: EdgeInsets.all(20.0),
-            child: Image.asset('assets/images/logo_body_tune.jpeg'),
+            child: Image.asset(CustomText().logoLocation),
           ),
           Container(
             margin: EdgeInsets.fromLTRB(24.0, 64.0, 24.0, 24.0),
@@ -50,7 +51,8 @@ class _ContentMain extends State<SplashScreen> {
               'Welcome!',
               style: TextStyle(
                   fontSize: 48,
-                  color: Colors.grey[600],
+                  // color: Colors.grey[600],
+                  color: CustomColor().text,
                   fontFamily: 'Arial',
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold),

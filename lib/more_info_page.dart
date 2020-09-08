@@ -60,7 +60,7 @@ class _ContentMain extends State<MoreInfoPage> {
                 _widgetCoronary(),
                 _widgetAngioplasty(),
                 _widgetEndarterectomy(),
-                Expanded(child: Container()),
+                Spacer(),
                 _widgetRegister(),
               ],
               // Column(
@@ -101,7 +101,7 @@ class _ContentMain extends State<MoreInfoPage> {
       ),
       validator: (value) {
         if (value.isEmpty) {
-          return 'This field is necessary';
+          return CustomText().emptyMessage1;
         }
         return null;
       },

@@ -55,11 +55,11 @@ class _ContentMain extends State<RegisterPage> {
           ),
           bottomOpacity: 0.0,
           automaticallyImplyLeading: false),
-      backgroundColor: Color(0xFFD9D2D5),
+      backgroundColor: CustomColor().alternateBackground,
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height * 0.8,
-          decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
+          decoration: BoxDecoration(color: CustomColor().background),
           padding: EdgeInsets.all(28.0),
           margin: EdgeInsets.all(40.0),
           child: Form(
@@ -77,7 +77,7 @@ class _ContentMain extends State<RegisterPage> {
                 _widgetSmoke(),
                 _widgetHeight(),
                 _widgetFitness(),
-                Expanded(child: Container()),
+                Spacer(),
                 _widgetRegisterNext(),
               ],
             ),
@@ -96,7 +96,7 @@ class _ContentMain extends State<RegisterPage> {
       ),
       validator: (value) {
         if (value.isEmpty) {
-          return 'This field is necessary';
+          return CustomText().emptyMessage1;
         }
         return null;
       },
@@ -117,7 +117,7 @@ class _ContentMain extends State<RegisterPage> {
       },
       validator: (value) {
         if (value.isEmpty) {
-          return 'This field is necessary';
+          return CustomText().emptyMessage1;
         }
         return null;
       },
@@ -134,7 +134,7 @@ class _ContentMain extends State<RegisterPage> {
       style: textBody1(context),
       validator: (value) {
         if (_dropDownGender == null) {
-          return 'This field is necessary';
+          return CustomText().emptyMessage1;
         }
         return null;
       },
@@ -143,8 +143,8 @@ class _ContentMain extends State<RegisterPage> {
           _dropDownGender = newValue;
         });
       },
-      items: <String>['Male', 'Female', 'Others']
-          .map<DropdownMenuItem<String>>((String value) {
+      items:
+          CustomText().genderList.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
@@ -169,12 +169,12 @@ class _ContentMain extends State<RegisterPage> {
       },
       validator: (value) {
         if (value == null) {
-          return 'This field is necessary';
+          return CustomText().emptyMessage1;
         }
         return null;
       },
       items:
-          <String>['Yes', 'No'].map<DropdownMenuItem<String>>((String value) {
+          CustomText().smokeList.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
@@ -194,7 +194,7 @@ class _ContentMain extends State<RegisterPage> {
       ),
       validator: (value) {
         if (value.isEmpty) {
-          return 'This field is necessary';
+          return CustomText().emptyMessage1;
         }
         return null;
       },
@@ -207,6 +207,7 @@ class _ContentMain extends State<RegisterPage> {
         context: context,
         builder: (BuildContext context) {
           return NumberPickerDialog.integer(
+            title: Text(CustomText().heightDialogTitle),
             minValue: 125,
             maxValue: 225,
             initialIntegerValue: 175,
@@ -224,7 +225,7 @@ class _ContentMain extends State<RegisterPage> {
     return DropdownButtonFormField<String>(
       value: _dropDownActive,
       decoration: InputDecoration(
-        labelText: 'Rate yourself for fitness',
+        labelText: CustomText().fitness,
         labelStyle: textBody1(context),
         // border: OutlineInputBorder(),
       ),
@@ -236,17 +237,13 @@ class _ContentMain extends State<RegisterPage> {
       },
       validator: (value) {
         if (value == null) {
-          return 'This field is necessary';
+          return CustomText().emptyMessage1;
         }
         return null;
       },
-      items: <String>[
-        'Sedentary',
-        'Low active',
-        'Somewhat Active',
-        'Active',
-        'Very Active'
-      ].map<DropdownMenuItem<String>>((String value) {
+      items: CustomText()
+          .fitnessList
+          .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
@@ -264,10 +261,10 @@ class _ContentMain extends State<RegisterPage> {
           color: Colors.white,
         ),
       ),
-      color: Theme.of(context).accentColor,
+      // color: Theme.of(context).accentColor,
       onPressed: () async {
-        if (_formKey.currentState.validate()) {
-          // if (true) {
+        // if (_formKey.currentState.validate()) {
+        if (true) {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => MoreInfoPage()),

@@ -34,12 +34,6 @@ class HomePageState extends State<HomePage> {
         bottomNavigationBar: BottomNavigationBar(
             onTap: onTabTapped,
             currentIndex: _currentIndex,
-            // backgroundColor: Theme.of(context).primaryColor,
-            // selectedItemColor: Colors.white,
-            // unselectedItemColor: Colors.grey[400],
-            // iconSize: 32.0,
-            selectedFontSize: 16.0,
-            unselectedFontSize: 13.0,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                   icon: Icon(Icons.home), title: Text('Home')),

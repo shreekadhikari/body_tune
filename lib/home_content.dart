@@ -1,3 +1,4 @@
+import 'package:body_tune/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -38,9 +39,7 @@ class _ContentMain extends State<HomeContent> {
                   // splashColor: Theme.of(context).accentColor,
                   color: Colors.white,
                   onPressed: () {
-                    Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text('Settings'),
-                    ));
+                    showSnackBar(context, 'Settings');
                   },
                 ),
                 // IconButton(
@@ -60,6 +59,7 @@ class _ContentMain extends State<HomeContent> {
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 32.0),
+              color: Theme.of(context).primaryColor,
               child: Image.asset('assets/images/logo_body_tune.jpeg'),
             ),
             Expanded(child: Container()),
@@ -95,9 +95,7 @@ class _ContentMain extends State<HomeContent> {
                       fontWeight: FontWeight.bold),
                 ),
                 onPressed: () async {
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                    content: Text('Text will begin from here'),
-                  ));
+                  showSnackBar(context, 'Test will begin from here');
                 },
               ),
             ),
