@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "843289161189",
+    "firebase_url": "https://bodytune-9e216.firebaseio.com",
+    "project_id": "bodytune-9e216",
+    "storage_bucket": "bodytune-9e216.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:843289161189:android:b70021294192f208cc530c",
+        "android_client_info": {
+          "package_name": "com.ovgu.body_tune"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "843289161189-11kvmmeq0r4crc9slveo6d0pt5d0ll3q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEpJ9n2byyMvBshIT6Esv4sgeCvZwhr4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "843289161189-11kvmmeq0r4crc9slveo6d0pt5d0ll3q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,3 +1,4 @@
+import 'package:body_tune/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -38,9 +39,10 @@ class _ContentMain extends State<HomeContent> {
                   // splashColor: Theme.of(context).accentColor,
                   color: Colors.white,
                   onPressed: () {
-                    Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text('Settings'),
-                    ));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SettingsPage()),
+                    );
                   },
                 ),
                 // IconButton(
