@@ -28,22 +28,26 @@ class BodyTuneState extends State<BodyTune> {
         fontFamily: 'Arial',
         buttonColor: Color(0xFFB37166),
         textTheme: TextTheme(
-          headline1: TextStyle(
-            fontSize: 18.0,
-            color: Color(0xFFB37166),
-            fontWeight: FontWeight.bold,
-          ),
-          headline2: TextStyle(
-            fontSize: 16.0,
-            fontStyle: FontStyle.italic,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFFB37166),
-          ),
-          bodyText1: TextStyle(
-            fontSize: 16.0,
-            color: Color(0xFF4D4B4C),
-          ),
-        ),
+            headline1: TextStyle(
+              fontSize: 18.0,
+              color: Color(0xFFB37166),
+              fontWeight: FontWeight.bold,
+            ),
+            headline2: TextStyle(
+              fontSize: 16.0,
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFFB37166),
+            ),
+            bodyText1: TextStyle(
+              fontSize: 16.0,
+              color: Color(0xFF4D4B4C),
+            ),
+            bodyText2: TextStyle(
+                fontSize: 14.0,
+                color: Color(0xFF4D4B4C),
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic)),
       ),
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),

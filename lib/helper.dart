@@ -28,6 +28,10 @@ textBody1(BuildContext context) {
   return Theme.of(context).textTheme.bodyText1;
 }
 
+textBody2(BuildContext context) {
+  return Theme.of(context).textTheme.bodyText2;
+}
+
 textHeading1(BuildContext context) {
   return Theme.of(context).textTheme.headline1;
 }
