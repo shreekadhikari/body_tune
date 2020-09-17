@@ -22,6 +22,7 @@ class CustomText {
     'Active',
     'Very Active'
   ];
+  List<String> dummyList = <String>['1', '2', '3', '4', '5', '6', '7', '8'];
 }
 
 textBody1(BuildContext context) {
