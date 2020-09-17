@@ -1,5 +1,6 @@
 
 import 'package:body_tune/helper.dart';
+import 'package:body_tune/measurement_page_1.dart';
 import 'package:body_tune/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -101,7 +102,10 @@ class _ContentMain extends State<HomeContent> {
                       fontWeight: FontWeight.bold),
                 ),
                 onPressed: () async {
-                  showSnackBar(context, 'Test will begin from here');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MeasurementPage1()),
+                  );
                 },
               ),
             ),
