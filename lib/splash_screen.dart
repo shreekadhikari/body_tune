@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:body_tune/helper.dart';
+import 'package:body_tune/home_page.dart';
 import 'package:body_tune/register_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -17,13 +19,35 @@ class _ContentMain extends State<SplashScreen> {
   Timer _timer;
 
   _ContentMain() {
-    _timer = new Timer(const Duration(milliseconds: 1500), () {
-      setState(() {
+    _timer = Timer(const Duration(milliseconds: 1500), () async {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      String fname = preferences.getString('fname');
+      if (fname == null || fname.isEmpty) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => RegisterPage()),
         );
-      });
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      }
+      // setState(() {
+      //   SharedPreferences preferences =  SharedPreferences.getInstance();
+      //   String fname = preferences.getString('fname');
+      //   if (fname != null) {
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(builder: (context) => RegisterPage()),
+      //     );
+      //   } else {
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(builder: (context) => RegisterPage()),
+      //     );
+      //   }
+      // });
     });
   }
 

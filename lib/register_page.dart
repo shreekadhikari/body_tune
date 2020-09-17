@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -28,6 +29,7 @@ class _ContentMain extends State<RegisterPage> {
   String _selectedDate;
   int _selectedHeight;
 
+  final fnameController = TextEditingController();
   final dateController = TextEditingController();
   final heightController = TextEditingController();
 
@@ -44,6 +46,11 @@ class _ContentMain extends State<RegisterPage> {
         dateController.text = _selectedDate;
         FocusScope.of(context).requestFocus(new FocusNode());
       });
+  }
+
+  storeInSharedPreferenes(String value) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString('fname', value);
   }
 
   @override
@@ -90,6 +97,7 @@ class _ContentMain extends State<RegisterPage> {
 
   _widgetFirstName() {
     return TextFormField(
+      controller: fnameController,
       style: textBody1(context),
       decoration: InputDecoration(
         labelText: 'First Name',
@@ -266,6 +274,7 @@ class _ContentMain extends State<RegisterPage> {
       onPressed: () async {
         // if (_formKey.currentState.validate()) {
         if (true) {
+          storeInSharedPreferenes(fnameController.text);
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => MoreInfoPage()),

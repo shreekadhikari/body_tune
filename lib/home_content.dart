@@ -1,6 +1,7 @@
 import 'package:body_tune/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeContent extends StatefulWidget {
   @override
@@ -15,6 +16,19 @@ class _ContentMain extends State<HomeContent> {
   void initState() {
     // TODO: implement initState
     super.initState();
+  }
+
+  SharedPreferences preferences;
+  TextEditingController nameController = TextEditingController();
+
+  _ContentMain() {
+    nameController.text = 'Hi!';
+    getSharedPreferences();
+  }
+
+  getSharedPreferences() async {
+    this.preferences = await SharedPreferences.getInstance();
+    nameController.text = 'Hi, ' + preferences.getString('fname') + '!';
   }
 
   @override
@@ -63,17 +77,19 @@ class _ContentMain extends State<HomeContent> {
               child: Image.asset('assets/images/logo_body_tune.jpeg'),
             ),
             Expanded(child: Container()),
-            Container(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'Hi, Jane Doe!',
-                style: TextStyle(
-                    fontSize: 36,
-                    color: Theme.of(context).accentColor,
-                    fontFamily: 'Arial',
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold),
+            TextField(
+              controller: nameController,
+              readOnly: true,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                border: InputBorder.none,
               ),
+              style: TextStyle(
+                  fontSize: 36,
+                  color: Theme.of(context).accentColor,
+                  fontFamily: 'Arial',
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold),
             ),
             Expanded(child: Container()),
             SizedBox(
