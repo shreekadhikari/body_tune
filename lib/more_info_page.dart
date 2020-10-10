@@ -1,3 +1,4 @@
+import 'package:body_tune/activities_page.dart';
 import 'package:body_tune/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +19,6 @@ class _ContentMain extends State<MoreInfoPage> {
   bool checkBoxCoronary = false;
   bool checkBoxAngioplasty = false;
   bool checkBoxEndarterectomy = false;
-
-  Map<String, bool> values = {
-    'Apple': false,
-    'Banana': false,
-    'Cherry': false,
-    'Mango': false,
-    'Orange': false,
-  };
 
   final _formKey = GlobalKey<FormState>();
 
@@ -193,7 +186,7 @@ class _ContentMain extends State<MoreInfoPage> {
           // if (true) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomePage()),
+            MaterialPageRoute(builder: (context) => ActivitiesPage()),
           );
         }
       },

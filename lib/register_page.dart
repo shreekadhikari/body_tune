@@ -1,3 +1,4 @@
+import 'package:body_tune/activities_page.dart';
 import 'package:body_tune/helper.dart';
 import 'package:body_tune/more_info_page.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +85,7 @@ class _ContentMain extends State<RegisterPage> {
                 _widgetGender(),
                 _widgetSmoke(),
                 _widgetHeight(),
-                _widgetFitness(),
+                // _widgetFitness(),
                 Spacer(),
                 _widgetRegisterNext(),
               ],
