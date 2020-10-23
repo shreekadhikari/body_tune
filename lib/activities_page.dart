@@ -1,7 +1,9 @@
-import 'package:body_tune/home_page.dart';
-import 'package:flutter/material.dart';
-import 'package:numberpicker/numberpicker.dart';
+import 'dart:convert';
 
+import 'package:body_tune/home_page.dart';
+import 'package:body_tune/user.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'helper.dart';
 
 class ActivitiesPage extends StatefulWidget {
@@ -13,10 +15,9 @@ class ActivitiesPage extends StatefulWidget {
 }
 
 class _ContentMain extends State<ActivitiesPage> {
+  SharedPreferences preferences;
   int currentIndex = 0;
-  String dropdownValue = '0';
-
-  // List<Widget> widgetDropDownList = <Widget>[widgetDays()];
+  List<String> dropDownActivity = CustomText().defaultDropDownValue;
 
   @override
   Widget build(BuildContext context) {
@@ -34,30 +35,10 @@ class _ContentMain extends State<ActivitiesPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Spacer(flex: 2),
-            Container(
-              child: Text(
-                CustomText().activitiesQues[currentIndex],
-                style: textBody1(context),
-              ),
-            ),
+            widgetQues(),
             Spacer(flex: 1),
-            Row(
-              children: [
-                Spacer(),
-                widgetDays(),
-                Spacer(),
-              ],
-            ),
-            // NumberPicker.integer(
-            //   scrollDirection: Axis.horizontal,
-            //   highlightSelectedValue: true,
-            //   minValue: 0,
-            //   maxValue: 7,
-            //   initialValue: 0,
-            // ),
-            Spacer(
-              flex: 2,
-            ),
+            widgetDaysAndHours(),
+            Spacer(flex: 2),
             widgetNextButton(),
           ],
         ),
@@ -65,11 +46,58 @@ class _ContentMain extends State<ActivitiesPage> {
     );
   }
 
+  widgetQues() {
+    return Container(
+      child: Text(
+        CustomText().activitiesQues[currentIndex],
+        style: textBody1(context),
+      ),
+    );
+  }
+
+  widgetDaysAndHours() {
+    List<String> tempList = CustomText().daysInWeek;
+
+    if (checkIfDays(currentIndex)) {
+      tempList = CustomText().daysInWeek;
+    } else {
+      tempList = CustomText().hoursInDays;
+    }
+
+    return Row(
+      children: [
+        Spacer(),
+        DropdownButton<String>(
+          value: dropDownActivity[currentIndex],
+          iconSize: 24,
+          elevation: 36,
+          hint: Text('Select a value'),
+          underline: Container(
+            height: 2,
+            color: CustomColor().accent,
+          ),
+          onChanged: (String newValue) {
+            setState(() {
+              dropDownActivity[currentIndex] = newValue;
+            });
+          },
+          items: tempList.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+        Spacer(),
+      ],
+    );
+  }
+
   widgetNextButton() {
     return RaisedButton(
       splashColor: Theme.of(context).primaryColor,
       child: Text(
-        'Next',
+        currentIndex == 6 ? 'Finish' : 'Next',
         style: TextStyle(
           color: Colors.white,
         ),
@@ -77,11 +105,17 @@ class _ContentMain extends State<ActivitiesPage> {
       onPressed: () async {
         setState(() {
           if (currentIndex == 6) {
+            String activityLevel = calculateActivityLevel(dropDownActivity);
+
+            storeActivityLevel(activityLevel);
+
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => HomePage()),
             );
           } else {
+            if (checkIfDays(currentIndex) &&
+                dropDownActivity[currentIndex] == '0') currentIndex += 1;
             currentIndex =
                 (currentIndex + 1) % CustomText().activitiesQues.length;
           }
@@ -90,35 +124,51 @@ class _ContentMain extends State<ActivitiesPage> {
     );
   }
 
-  widgetDays() {
-    List<String> tempList = CustomText().daysInWeek;
+  bool checkIfDays(int value) {
+    if (value == 0 || value == 2 || value == 4 || value == 6)
+      return true;
+    else
+      return false;
+  }
 
-    // if (currentIndex == 0 || currentIndex == 2 || currentIndex == 4) {
-    //   tempList = CustomText().daysInWeek;
-    // } else {
-    //   tempList = CustomText().hoursInDays;
-    // }
+  String calculateActivityLevel(List<String> activityDataString) {
+    List<int> activityDataInt = List<int>(activityDataString.length);
+    double met;
+    String activityLevel;
 
-    return DropdownButton<String>(
-      value: dropdownValue,
-      iconSize: 24,
-      elevation: 36,
-      hint: Text('Select a value'),
-      underline: Container(
-        height: 2,
-        color: CustomColor().accent,
-      ),
-      onChanged: (String newValue) {
-        setState(() {
-          dropdownValue = newValue;
-        });
-      },
-      items: tempList.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );
+    for (int i = 0; i < activityDataString.length; i++) {
+      if (checkIfDays(i))
+        activityDataInt[i] = int.parse(activityDataString[i]);
+      else
+        activityDataInt[i] =
+            CustomText().mapTimeIntoMins[activityDataString[i]];
+    }
+
+    met = activityDataInt[0] * activityDataInt[1] * 8.0 +
+        activityDataInt[2] * activityDataInt[3] * 4.0 +
+        activityDataInt[4] * activityDataInt[5] * 3.3;
+
+    if (met >= 1500) {
+      activityLevel = 'High';
+    } else if (met >= 600) {
+      activityLevel = 'Moderate';
+    } else {
+      activityLevel = 'Low';
+    }
+
+    debugPrint('activityPageMET: $met');
+    debugPrint('activityPageLevel: $activityLevel');
+
+    return activityLevel;
+  }
+
+  void storeActivityLevel(String level) async {
+    this.preferences = await SharedPreferences.getInstance();
+    String userString = preferences.getString('user');
+    UserInfo userInfo = UserInfo.fromJson(jsonDecode(userString));
+    userInfo.activity = level;
+    preferences.setString('user', jsonEncode(userInfo));
+
+    debugPrint('activityPageUserWithActivity: ' + userInfo.toString());
   }
 }

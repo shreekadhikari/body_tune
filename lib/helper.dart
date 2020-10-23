@@ -15,14 +15,16 @@ class CustomText {
   String logoLocation = 'assets/images/logo_body_tune.jpeg';
   List<String> genderList = <String>['Male', 'Female', 'Others'];
   List<String> smokeList = <String>['Yes', 'No'];
-  List<String> fitnessList = <String>[
-    'Sedentary',
-    'Low active',
-    'Somewhat Active',
-    'Active',
-    'Very Active'
-  ];
   List<String> dummyList = <String>['1', '2', '3', '4', '5', '6', '7', '8'];
+  List<String> defaultDropDownValue = <String>[
+    '0',
+    '5 mins',
+    '0',
+    '5 mins',
+    '0',
+    '5 mins',
+    '0'
+  ];
   List<String> daysInWeek = <String>[
     '0',
     '1',
@@ -32,35 +34,47 @@ class CustomText {
     '5',
     '6',
     '7',
-    'Don\'t Know'
   ];
   List<String> hoursInDays = <String>[
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-    '13',
-    '14',
-    '15',
-    '16',
-    '17',
-    '18',
-    '19',
-    '20',
-    '21',
-    '22',
-    '23',
-    '24',
-    'Don\'t Know'
+    '5 mins',
+    '10 mins',
+    '15 mins',
+    '20 mins',
+    '30 mins',
+    '45 mins',
+    '1 hours',
+    '1.5 hours',
+    '2 hours',
+    '2.5 hours',
+    '3 hours',
+    '3.5 hours',
+    '4 hours',
+    '5 hours',
+    '6 hours',
+    '7 hours',
+    '8 hours'
   ];
+
+  Map<String, int> mapTimeIntoMins = {
+    '5 mins': 5,
+    '10 mins': 10,
+    '15 mins': 15,
+    '20 mins': 20,
+    '30 mins': 30,
+    '45 mins': 45,
+    '1 hours': 60,
+    '1.5 hours': 90,
+    '2 hours': 120,
+    '2.5 hours': 150,
+    '3 hours': 180,
+    '3.5 hours': 210,
+    '4 hours': 240,
+    '5 hours': 300,
+    '6 hours': 360,
+    '7 hours': 420,
+    '8 hours': 480
+  };
+
   List<String> activitiesQues = <String>[
     'During the last 7 days, on how many days did you do vigorous physical activities like heavy lifting, digging, aerobics or fast bicycling?',
     'How much time did you  usually spend doing vigorous physical activities on one of the day?',
@@ -70,6 +84,7 @@ class CustomText {
     'How much time did you usually spend walking on one of those days?',
     'During the last 7 days. how much time did you spend sitting on a week day?'
   ];
+
   List<String> activitiesNote = <String>[
     'Think about all the vigorous activities that you did in the last 7 days. Vigorous physical activities refer to activities that take hard physical effort and make you breathe much harder than normal. Think only about those physical activities that you did for at least 10 minutes at a time.',
     '',

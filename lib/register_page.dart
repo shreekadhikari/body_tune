@@ -1,6 +1,7 @@
-import 'package:body_tune/activities_page.dart';
+import 'dart:convert';
 import 'package:body_tune/helper.dart';
 import 'package:body_tune/more_info_page.dart';
+import 'package:body_tune/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -51,7 +52,7 @@ class _ContentMain extends State<RegisterPage> {
 
   storeInSharedPreferenes(String value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString('fname', value);
+    await preferences.setString('user', value);
   }
 
   @override
@@ -85,7 +86,6 @@ class _ContentMain extends State<RegisterPage> {
                 _widgetGender(),
                 _widgetSmoke(),
                 _widgetHeight(),
-                // _widgetFitness(),
                 Spacer(),
                 _widgetRegisterNext(),
               ],
@@ -231,51 +231,31 @@ class _ContentMain extends State<RegisterPage> {
     });
   }
 
-  _widgetFitness() {
-    return DropdownButtonFormField<String>(
-      value: _dropDownActive,
-      decoration: InputDecoration(
-        labelText: CustomText().fitness,
-        labelStyle: textBody1(context),
-        // border: OutlineInputBorder(),
-      ),
-      style: textBody1(context),
-      onChanged: (String newValue) {
-        setState(() {
-          _dropDownActive = newValue;
-        });
-      },
-      validator: (value) {
-        if (value == null) {
-          return CustomText().emptyMessage1;
-        }
-        return null;
-      },
-      items: CustomText()
-          .fitnessList
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );
-  }
-
   _widgetRegisterNext() {
     return RaisedButton(
       splashColor: Theme.of(context).primaryColor,
       child: Text(
         'Next',
-        style: TextStyle(
-          color: Colors.white,
-        ),
+        style: TextStyle(color: Colors.white),
       ),
-      // color: Theme.of(context).accentColor,
       onPressed: () async {
         // if (_formKey.currentState.validate()) {
         if (true) {
-          storeInSharedPreferenes(fnameController.text);
+          UserInfo newUser = UserInfo(fnameController.text, dateController.text,
+              _dropDownGender, _dropDownSmoke, _selectedHeight.toString());
+
+          debugPrint('User: ' + newUser.toString());
+
+          String userString = jsonEncode(newUser);
+
+          debugPrint('User JSON: ' + userString);
+
+          UserInfo testUser = UserInfo.fromJson(jsonDecode(userString));
+
+          debugPrint('Test User: ' + testUser.toString());
+
+          storeInSharedPreferenes(userString);
+
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => MoreInfoPage()),

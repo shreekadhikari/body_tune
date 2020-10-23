@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:body_tune/helper.dart';
 import 'package:body_tune/home_page.dart';
 import 'package:body_tune/register_page.dart';
@@ -21,8 +20,18 @@ class _ContentMain extends State<SplashScreen> {
   _ContentMain() {
     _timer = Timer(const Duration(milliseconds: 1500), () async {
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      String fname = preferences.getString('fname');
-      if (fname == null || fname.isEmpty) {
+      String userString = preferences.getString('user');
+
+      if (userString == null) {
+        debugPrint('Splash User: null');
+      } else if (userString.isEmpty) {
+        debugPrint('Splash User: IsEmpty');
+      } else {
+        debugPrint('Splash User: ' + userString);
+      }
+
+      // if (userString == null) {
+      if (true) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => RegisterPage()),
@@ -33,21 +42,6 @@ class _ContentMain extends State<SplashScreen> {
           MaterialPageRoute(builder: (context) => HomePage()),
         );
       }
-      // setState(() {
-      //   SharedPreferences preferences =  SharedPreferences.getInstance();
-      //   String fname = preferences.getString('fname');
-      //   if (fname != null) {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(builder: (context) => RegisterPage()),
-      //     );
-      //   } else {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(builder: (context) => RegisterPage()),
-      //     );
-      //   }
-      // });
     });
   }
 
@@ -75,7 +69,6 @@ class _ContentMain extends State<SplashScreen> {
               'Welcome!',
               style: TextStyle(
                   fontSize: 48,
-                  // color: Colors.grey[600],
                   color: CustomColor().text,
                   fontFamily: 'Arial',
                   fontStyle: FontStyle.italic,
