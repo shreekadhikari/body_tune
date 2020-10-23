@@ -1,3 +1,4 @@
+import 'package:body_tune/measurement_page_4.dart';
 import 'package:body_tune/results_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +31,17 @@ class _ContentMain extends State<MeasurementPage3> {
         padding: EdgeInsets.all(40.0),
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Spacer(),
             Container(
-              height: 200.0,
-              color: CustomColor().background,
+              // height: 200.0,
+              // color: CustomColor().alternateBackground,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 40.0),
+                color: Theme.of(context).primaryColor,
+                child: Image.asset('assets/images/coughing_gif.gif'),
+              ),
             ),
             Spacer(),
             RaisedButton(
@@ -51,7 +58,7 @@ class _ContentMain extends State<MeasurementPage3> {
                 if (true) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ResultsPage()),
+                    MaterialPageRoute(builder: (context) => MeasurementPage4()),
                   );
                 }
               },

@@ -20,7 +20,7 @@ class _Contentbox extends State<MeasurementPage2>{
     return Scaffold(
       appBar: AppBar(
           title: Text(
-            'Guided Breathing',
+            'Swallowing',
             textAlign: TextAlign.center,
             // style: textHeading1(context),
           ),
@@ -34,8 +34,13 @@ class _Contentbox extends State<MeasurementPage2>{
           children: [
             Spacer(),
             Container(
-              height: 200.0,
-              color: CustomColor().background,
+              // height: 200.0,
+              // color: CustomColor().alternateBackground,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 40.0),
+                color: Theme.of(context).primaryColor,
+                child: Image.asset('assets/images/swallow_gif.gif'),
+              ),
             ),
             Spacer(),
             RaisedButton(
