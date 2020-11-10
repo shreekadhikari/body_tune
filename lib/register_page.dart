@@ -19,10 +19,16 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _ContentMain extends State<RegisterPage> {
+  TextEditingController fnameController, dateController, heightController;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    fnameController = TextEditingController();
+    dateController = TextEditingController();
+    heightController = TextEditingController();
+//    _ref = FirebaseDatabase.instance.reference().child('userdetail');
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -32,9 +38,7 @@ class _ContentMain extends State<RegisterPage> {
   String _selectedDate;
   int _selectedHeight;
 
-  final fnameController = TextEditingController();
-  final dateController = TextEditingController();
-  final heightController = TextEditingController();
+//  DatabaseReference _ref;
 
   Future _selectDate() async {
     final DateTime picked = await showDatePicker(
@@ -240,7 +244,9 @@ class _ContentMain extends State<RegisterPage> {
         style: TextStyle(color: Colors.white),
       ),
       onPressed: () async {
+        // color: Theme.of(context).accentColor,
         // if (_formKey.currentState.validate()) {
+//        saveuserdetail();
         if (true) {
           UserInfo newUser = UserInfo(fnameController.text, dateController.text,
               _dropDownGender, _dropDownSmoke, _selectedHeight.toString());
@@ -270,4 +276,20 @@ class _ContentMain extends State<RegisterPage> {
       },
     );
   }
+
+//  void saveuserdetail(){
+//  String name = fnameController.text;
+//  String date = dateController.text;
+//  String height = heightController.text;
+
+//  Map<String,String> userdetail = {
+//    'name':name,
+//    'date':date,
+//    'height': height,
+//  };
+
+//  _ref.push().set(userdetail).then((value) {
+//  });
+
+//  }
 }
