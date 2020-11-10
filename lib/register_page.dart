@@ -1,5 +1,6 @@
 import 'package:body_tune/helper.dart';
 import 'package:body_tune/more_info_page.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -16,10 +17,16 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _ContentMain extends State<RegisterPage> {
+  TextEditingController fnameController, dateController, heightController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+//     fnameController = TextEditingController();
+//     dateController = TextEditingController();
+//     heightController = TextEditingController();
+//    _ref = FirebaseDatabase.instance.reference().child('userdetail');
+
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -28,10 +35,8 @@ class _ContentMain extends State<RegisterPage> {
   String _dropDownActive;
   String _selectedDate;
   int _selectedHeight;
+//  DatabaseReference _ref;
 
-  final fnameController = TextEditingController();
-  final dateController = TextEditingController();
-  final heightController = TextEditingController();
 
   Future _selectDate() async {
     final DateTime picked = await showDatePicker(
@@ -271,8 +276,9 @@ class _ContentMain extends State<RegisterPage> {
         ),
       ),
       // color: Theme.of(context).accentColor,
-      onPressed: () async {
+      onPressed: () {
         // if (_formKey.currentState.validate()) {
+//        saveuserdetail();
         if (true) {
           storeInSharedPreferenes(fnameController.text);
           Navigator.push(
@@ -283,4 +289,20 @@ class _ContentMain extends State<RegisterPage> {
       },
     );
   }
+
+//  void saveuserdetail(){
+//  String name = fnameController.text;
+//  String date = dateController.text;
+//  String height = heightController.text;
+
+//  Map<String,String> userdetail = {
+//    'name':name,
+//    'date':date,
+//    'height': height,
+//  };
+
+//  _ref.push().set(userdetail).then((value) {
+//  });
+
+//  }
 }
