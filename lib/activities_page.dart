@@ -149,26 +149,26 @@ class _ContentMain extends State<ActivitiesPage> {
         activityDataInt[4] * activityDataInt[5] * 3.3;
 
     if (met >= 1500) {
-      activityLevel = 'High';
+      activityLevel = '3';
     } else if (met >= 600) {
-      activityLevel = 'Moderate';
+      activityLevel = '2';
     } else {
-      activityLevel = 'Low';
+      activityLevel = '1';
     }
 
-    debugPrint('activityPageMET: $met');
-    debugPrint('activityPageLevel: $activityLevel');
+    debugPrint('ActivityPage MET: $met');
+    debugPrint('ActivityPage Level: $activityLevel');
 
     return activityLevel;
   }
 
   void storeActivityLevel(String level) async {
     this.preferences = await SharedPreferences.getInstance();
-    String userString = preferences.getString('user');
+    String userString = preferences.getString(SPText().user);
     UserInfo userInfo = UserInfo.fromJson(jsonDecode(userString));
     userInfo.activity = level;
-    preferences.setString('user', jsonEncode(userInfo));
+    preferences.setString(SPText().user, jsonEncode(userInfo));
 
-    debugPrint('activityPageUserWithActivity: ' + userInfo.toString());
+    debugPrint('ActivityPage UserWithActivity: ' + userInfo.toString());
   }
 }

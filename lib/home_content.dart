@@ -74,7 +74,7 @@ class _ContentMain extends State<HomeContent> {
             Spacer(),
             widgetStartMeasurement(),
             Spacer(flex: 2),
-            widgetUserInfoDebug(),
+            // widgetUserInfoDebug(),
           ],
         ));
   }

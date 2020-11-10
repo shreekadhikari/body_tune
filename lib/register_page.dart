@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:body_tune/helper.dart';
 import 'package:body_tune/more_info_page.dart';
+import 'package:body_tune/settings_page.dart';
 import 'package:body_tune/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -50,9 +51,9 @@ class _ContentMain extends State<RegisterPage> {
       });
   }
 
-  storeInSharedPreferenes(String value) async {
+  storeInSharedPreferences(String key, String value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString('user', value);
+    await preferences.setString(key, value);
   }
 
   @override
@@ -244,17 +245,22 @@ class _ContentMain extends State<RegisterPage> {
           UserInfo newUser = UserInfo(fnameController.text, dateController.text,
               _dropDownGender, _dropDownSmoke, _selectedHeight.toString());
 
-          debugPrint('User: ' + newUser.toString());
+          debugPrint('RegisterPage User: ' + newUser.toString());
 
           String userString = jsonEncode(newUser);
 
-          debugPrint('User JSON: ' + userString);
+          debugPrint('RegisterPage UserJSON: ' + userString);
 
           UserInfo testUser = UserInfo.fromJson(jsonDecode(userString));
 
-          debugPrint('Test User: ' + testUser.toString());
+          debugPrint('RegisterPage TestUser: ' + testUser.toString());
 
-          storeInSharedPreferenes(userString);
+          storeInSharedPreferences(SPText().user, userString);
+          storeInSharedPreferences(SPText().normalBreathing, '1');
+          storeInSharedPreferences(SPText().guidedBreathing, '2');
+          storeInSharedPreferences(SPText().coughing, '3');
+          storeInSharedPreferences(SPText().swallowing, '4');
+          storeInSharedPreferences(SPText().apnea, '5');
 
           Navigator.push(
             context,

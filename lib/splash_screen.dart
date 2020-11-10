@@ -20,14 +20,14 @@ class _ContentMain extends State<SplashScreen> {
   _ContentMain() {
     _timer = Timer(const Duration(milliseconds: 1500), () async {
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      String userString = preferences.getString('user');
+      String userString = preferences.getString(SPText().user);
 
       if (userString == null) {
-        debugPrint('Splash User: null');
+        debugPrint('SplashScreen User: null');
       } else if (userString.isEmpty) {
-        debugPrint('Splash User: IsEmpty');
+        debugPrint('SplashScreen User: IsEmpty');
       } else {
-        debugPrint('Splash User: ' + userString);
+        debugPrint('SplashScreen User: ' + userString);
       }
 
       // if (userString == null) {
