@@ -5,6 +5,11 @@ import 'package:body_tune/user.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'helper.dart';
+import 'package:body_tune/helper.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/widgets.dart';
+
+
 
 class ActivitiesPage extends StatefulWidget {
   @override
@@ -17,6 +22,7 @@ class ActivitiesPage extends StatefulWidget {
 class _ContentMain extends State<ActivitiesPage> {
   SharedPreferences preferences;
   int currentIndex = 0;
+  DatabaseReference _ref;
   List<String> dropDownActivity = CustomText().defaultDropDownValue;
 
   @override
@@ -108,6 +114,7 @@ class _ContentMain extends State<ActivitiesPage> {
             String activityLevel = calculateActivityLevel(dropDownActivity);
 
             storeActivityLevel(activityLevel);
+            //storeUserDetail();
 
             Navigator.push(
               context,
@@ -167,8 +174,25 @@ class _ContentMain extends State<ActivitiesPage> {
     String userString = preferences.getString(SPText().user);
     UserInfo userInfo = UserInfo.fromJson(jsonDecode(userString));
     userInfo.activity = level;
+
+    debugPrint('ActivityPage UserLevel:' +userInfo.activity);
+
     preferences.setString(SPText().user, jsonEncode(userInfo));
 
     debugPrint('ActivityPage UserWithActivity: ' + userInfo.toString());
+
+    _ref.push().set(userInfo.toJson()).then((value) {});
+  }
+  void storeUserDetail() async {
+
+    //_ref.push().set(UserInf).then((value) {
+    //});
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _ref = FirebaseDatabase.instance.reference().child('UserInfo');
   }
 }

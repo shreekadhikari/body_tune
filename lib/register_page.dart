@@ -3,6 +3,7 @@ import 'package:body_tune/helper.dart';
 import 'package:body_tune/more_info_page.dart';
 import 'package:body_tune/settings_page.dart';
 import 'package:body_tune/user.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -28,7 +29,7 @@ class _ContentMain extends State<RegisterPage> {
     fnameController = TextEditingController();
     dateController = TextEditingController();
     heightController = TextEditingController();
-//    _ref = FirebaseDatabase.instance.reference().child('userdetail');
+  //  _ref = FirebaseDatabase.instance.reference().child('userdetail');
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -38,7 +39,7 @@ class _ContentMain extends State<RegisterPage> {
   String _selectedDate;
   int _selectedHeight;
 
-//  DatabaseReference _ref;
+ //  DatabaseReference _ref;
 
   Future _selectDate() async {
     final DateTime picked = await showDatePicker(
@@ -245,51 +246,52 @@ class _ContentMain extends State<RegisterPage> {
       ),
       onPressed: () async {
         // color: Theme.of(context).accentColor,
-        // if (_formKey.currentState.validate()) {
-//        saveuserdetail();
+        //if (_formKey.currentState.validate()) {
         if (true) {
-          UserInfo newUser = UserInfo(fnameController.text, dateController.text,
-              _dropDownGender, _dropDownSmoke, _selectedHeight.toString());
+//        saveuserdetail();
+          if (true) {
+            UserInfo newUser = UserInfo(
+                fnameController.text, dateController.text,
+                _dropDownGender, _dropDownSmoke, _selectedHeight.toString());
 
-          debugPrint('RegisterPage User: ' + newUser.toString());
+            debugPrint('RegisterPage User: ' + newUser.toString());
 
-          String userString = jsonEncode(newUser);
+            String userString = jsonEncode(newUser);
 
-          debugPrint('RegisterPage UserJSON: ' + userString);
+            debugPrint('RegisterPage UserJSON: ' + userString);
 
-          UserInfo testUser = UserInfo.fromJson(jsonDecode(userString));
+            UserInfo testUser = UserInfo.fromJson(jsonDecode(userString));
 
-          debugPrint('RegisterPage TestUser: ' + testUser.toString());
+            debugPrint('RegisterPage TestUser: ' + testUser.toString());
 
-          storeInSharedPreferences(SPText().user, userString);
-          storeInSharedPreferences(SPText().normalBreathing, '1');
-          storeInSharedPreferences(SPText().guidedBreathing, '2');
-          storeInSharedPreferences(SPText().coughing, '3');
-          storeInSharedPreferences(SPText().swallowing, '4');
-          storeInSharedPreferences(SPText().apnea, '5');
+            storeInSharedPreferences(SPText().user, userString);
+            storeInSharedPreferences(SPText().normalBreathing, '1');
+            storeInSharedPreferences(SPText().guidedBreathing, '2');
+            storeInSharedPreferences(SPText().coughing, '3');
+            storeInSharedPreferences(SPText().swallowing, '4');
+            storeInSharedPreferences(SPText().apnea, '5');
 
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MoreInfoPage()),
-          );
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MoreInfoPage()),
+            );
+          }
         }
-      },
-    );
+      });
   }
 
-//  void saveuserdetail(){
-//  String name = fnameController.text;
-//  String date = dateController.text;
-//  String height = heightController.text;
+ /* void saveuserdetail(){
+  String name = fnameController.text;
+  String date = dateController.text;
+  String height = heightController.text;
 
-//  Map<String,String> userdetail = {
-//    'name':name,
-//    'date':date,
-//    'height': height,
-//  };
+  Map<String,String> userdetail = {
+    'name':name,
+    'date':date,
+    'height': height,
+  };
+    _ref.push().set(userdetail).then((value) {
+  });
 
-//  _ref.push().set(userdetail).then((value) {
-//  });
-
-//  }
+ }*/
 }
