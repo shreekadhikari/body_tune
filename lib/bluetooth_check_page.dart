@@ -1,4 +1,4 @@
-import 'package:body_tune/measurement_page_1.dart';
+import 'package:body_tune/mp1_normal_breathing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -75,7 +75,7 @@ class _ContentMain extends State<BluetoothCheckPage> {
             Spacer(),
             RaisedButton(
                 child: Text(
-                  'Check',
+                  'Next',
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
@@ -84,7 +84,8 @@ class _ContentMain extends State<BluetoothCheckPage> {
                   // await deviceRequired.connect();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MeasurementPage1()),
+                    MaterialPageRoute(
+                        builder: (context) => Mp1NormalBreathing()),
                   );
                 }),
           ],

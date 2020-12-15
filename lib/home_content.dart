@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:body_tune/bluetooth_check_page.dart';
-import 'package:body_tune/measurement_page_1.dart';
+import 'package:body_tune/mp1_normal_breathing.dart';
 import 'package:body_tune/settings_page.dart';
 import 'package:body_tune/user.dart';
 import 'package:flutter/material.dart';

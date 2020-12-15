@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:body_tune/measurement_page_1.dart';
+import 'package:body_tune/mp1_normal_breathing.dart';
 import 'package:flutter/material.dart';
 
 class OtpTimer extends StatefulWidget {
@@ -36,7 +36,7 @@ class _OtpTimerState extends State<OtpTimer> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext  context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -59,7 +59,7 @@ class _OtpTimerState extends State<OtpTimer> {
             if (true) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MeasurementPage1()),
+                MaterialPageRoute(builder: (context) => Mp1NormalBreathing()),
               );
             }
           },
