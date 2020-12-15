@@ -1,3 +1,4 @@
+import 'package:body_tune/measurement_page_1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -15,9 +16,9 @@ class BluetoothCheckPage extends StatefulWidget {
 
 class _ContentMain extends State<BluetoothCheckPage> {
   FlutterBlue flutterBlue = FlutterBlue.instance;
+  BluetoothDevice deviceRequired;
 
-  List<ScanResult> scanResult;
-  bool showResult = false;
+  List<ScanResult> scanResult = [];
 
   @override
   void initState() {
@@ -25,13 +26,22 @@ class _ContentMain extends State<BluetoothCheckPage> {
 
     flutterBlue.scanResults.listen((results) {
       // do something with scan results
-      scanResult = results;
+      setState(() {
+        scanResult = results;
+      });
       for (ScanResult r in scanResult) {
-        debugPrint(
-            'BluetoothCheckPage: ${r.device.name} found! rssi: ${r.rssi}');
+        debugPrint('BluetoothCheckPage: ${r.device.id} found! rssi: ${r.rssi}');
         debugPrint('BluetoothCheckPage: ' + results.toString());
+        // if (r.device.id.toString() == 'B8:27:EB:99:1E:99') {
+        if (r.device.id.toString() == '73:B1:5F:4F:60:DE') {
+          deviceRequired = r.device;
+
+          debugPrint('BluetoothCheckPage: The device has been found');
+        }
       }
     });
+
+    flutterBlue.stopScan();
   }
 
   @override
@@ -50,14 +60,17 @@ class _ContentMain extends State<BluetoothCheckPage> {
           children: [
             Container(
               height: 500.0,
-              child: showResult
-                  ? ListView.builder(
-                      itemCount: scanResult.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Text(scanResult[index].device.id.toString());
-                      },
-                    )
-                  : Text('Click on the botton to show results'),
+              child: ListView.builder(
+                itemCount: scanResult.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    padding: EdgeInsets.only(bottom: 5),
+                    child: Text(scanResult[index].device.id.toString() +
+                        ', ' +
+                        scanResult[index].device.name),
+                  );
+                },
+              ),
             ),
             Spacer(),
             RaisedButton(
@@ -65,10 +78,14 @@ class _ContentMain extends State<BluetoothCheckPage> {
                   'Check',
                   style: TextStyle(color: Colors.white),
                 ),
-                onPressed: () {
-                  setState(() {
-                    showResult = true;
-                  });
+                onPressed: () async {
+                  // debugPrint('BluetoothCheckPage SelectedDevice: ' +
+                  //     deviceRequired.toString());
+                  // await deviceRequired.connect();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MeasurementPage1()),
+                  );
                 }),
           ],
         ),
