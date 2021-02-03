@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:body_tune/mp4_guided_breathing.dart';
 import 'package:body_tune/results_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,8 +14,19 @@ class Mp3Coughing extends StatefulWidget {
     return _ContentMain();
   }
 }
-
 class _ContentMain extends State<Mp3Coughing> {
+  Timer _timer;
+  _ContentMain() {
+    _timer = Timer(const Duration(milliseconds: 5000), () async {
+      // if (userString == null) {
+      if (true) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Mp4GuidedBreathing()),
+        );
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -43,25 +56,31 @@ class _ContentMain extends State<Mp3Coughing> {
               ),
             ),
             Spacer(),
-            RaisedButton(
-              splashColor: Theme.of(context).primaryColor,
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              // color: Theme.of(context).accentColor,
-              onPressed: () async {
-                // if (_formKey.currentState.validate()) {
-                if (true) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Mp4GuidedBreathing()),
-                  );
-                }
-              },
-            ),
+            Container(
+                child: Text(
+                  '                   Note: Please cough for 10 secs',
+                  //style: textBody1(context),
+                )),
+            Spacer(),
+            // RaisedButton(
+            //   splashColor: Theme.of(context).primaryColor,
+            //   child: Text(
+            //     'Next',
+            //     style: TextStyle(
+            //       color: Colors.white,
+            //     ),
+            //   ),
+            //   // color: Theme.of(context).accentColor,
+            //   onPressed: () async {
+            //     // if (_formKey.currentState.validate()) {
+            //     if (true) {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => Mp4GuidedBreathing()),
+            //       );
+            //     }
+            //   },
+            // ),
           ],
         ),
       ),

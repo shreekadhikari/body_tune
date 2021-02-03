@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:body_tune/helper.dart';
@@ -12,6 +13,18 @@ class Mp4GuidedBreathing extends StatefulWidget {
 
 class _Mp4GuidedBreathingState extends State<Mp4GuidedBreathing>
     with SingleTickerProviderStateMixin {
+  Timer _timer;
+  _Mp4GuidedBreathingState() {
+    _timer = Timer(const Duration(milliseconds: 5000), () async {
+      // if (userString == null) {
+      if (true) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Mp5Apnea()),
+        );
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,25 +86,31 @@ class _CupertinoBreatheState extends State<CupertinoBreathe>
             ),
           ),
           Spacer(),
-          RaisedButton(
-            splashColor: Theme.of(context).primaryColor,
-            child: Text(
-              'Next',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            // color: Theme.of(context).accentColor,
-            onPressed: () async {
-              // if (_formKey.currentState.validate()) {
-              if (true) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Mp5Apnea()),
-                );
-              }
-            },
-          )
+          Container(
+              child: Text(
+                'Note: Please breathe in sync with the breathing bubble for 10 secs',
+                //style: textBody1(context),
+              )),
+          Spacer(),
+          // RaisedButton(
+          //   splashColor: Theme.of(context).primaryColor,
+          //   child: Text(
+          //     'Next',
+          //     style: TextStyle(
+          //       color: Colors.white,
+          //     ),
+          //   ),
+          //   // color: Theme.of(context).accentColor,
+          //   onPressed: () async {
+          //     // if (_formKey.currentState.validate()) {
+          //     if (true) {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(builder: (context) => Mp5Apnea()),
+          //       );
+          //     }
+          //   },
+          // )
         ],
       ),
     );
