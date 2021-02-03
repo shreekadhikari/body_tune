@@ -66,13 +66,10 @@ class _ContentMain extends State<SettingsPage> {
             _widgetNormalBreathing(),
             _widgetGuidedBreathing(),
             _widgetCoughing(),
-            _widgetSwalloing(),
+            _widgetSwallowing(),
             _widgetApnea(),
-            Expanded(
-              child: Container(
-                color: CustomColor().background,
-              ),
-            ),
+            Spacer(),
+            Text('All time is in seconds'),
             _widgetSaveButton()
           ],
         ),
@@ -197,7 +194,7 @@ class _ContentMain extends State<SettingsPage> {
     );
   }
 
-  _widgetSwalloing() {
+  _widgetSwallowing() {
     return Container(
       padding: EdgeInsets.only(bottom: 10.0),
       child: showSetting

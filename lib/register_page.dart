@@ -239,20 +239,20 @@ class _ContentMain extends State<RegisterPage> {
 
   _widgetRegisterNext() {
     return RaisedButton(
-      splashColor: Theme.of(context).primaryColor,
-      child: Text(
-        'Next',
-        style: TextStyle(color: Colors.white),
-      ),
-      onPressed: () async {
-        // color: Theme.of(context).accentColor,
-        //if (_formKey.currentState.validate()) {
-        if (true) {
-//        saveuserdetail();
+        splashColor: Theme.of(context).primaryColor,
+        child: Text(
+          'Next',
+          style: TextStyle(color: Colors.white),
+        ),
+        onPressed: () async {
+          // if (_formKey.currentState.validate()) {
           if (true) {
             UserInfo newUser = UserInfo(
-                fnameController.text, dateController.text,
-                _dropDownGender, _dropDownSmoke, _selectedHeight.toString());
+                fnameController.text,
+                dateController.text,
+                _dropDownGender,
+                _dropDownSmoke,
+                _selectedHeight.toString());
 
             debugPrint('RegisterPage User: ' + newUser.toString());
 
@@ -276,22 +276,6 @@ class _ContentMain extends State<RegisterPage> {
               MaterialPageRoute(builder: (context) => MoreInfoPage()),
             );
           }
-        }
-      });
+        });
   }
-
- /* void saveuserdetail(){
-  String name = fnameController.text;
-  String date = dateController.text;
-  String height = heightController.text;
-
-  Map<String,String> userdetail = {
-    'name':name,
-    'date':date,
-    'height': height,
-  };
-    _ref.push().set(userdetail).then((value) {
-  });
-
- }*/
 }

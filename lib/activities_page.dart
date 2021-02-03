@@ -9,8 +9,6 @@ import 'package:body_tune/helper.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/widgets.dart';
 
-
-
 class ActivitiesPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -59,6 +57,12 @@ class _ContentMain extends State<ActivitiesPage> {
         style: textBody1(context),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _ref = FirebaseDatabase.instance.reference().child('UserInfo');
   }
 
   widgetDaysAndHours() {
@@ -175,24 +179,12 @@ class _ContentMain extends State<ActivitiesPage> {
     UserInfo userInfo = UserInfo.fromJson(jsonDecode(userString));
     userInfo.activity = level;
 
-    debugPrint('ActivityPage UserLevel:' +userInfo.activity);
+    debugPrint('ActivityPage UserLevel:' + userInfo.activity);
 
     preferences.setString(SPText().user, jsonEncode(userInfo));
 
     debugPrint('ActivityPage UserWithActivity: ' + userInfo.toString());
 
     _ref.push().set(userInfo.toJson()).then((value) {});
-  }
-  void storeUserDetail() async {
-
-    //_ref.push().set(UserInf).then((value) {
-    //});
-
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _ref = FirebaseDatabase.instance.reference().child('UserInfo');
   }
 }

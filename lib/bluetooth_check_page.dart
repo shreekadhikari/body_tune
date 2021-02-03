@@ -33,7 +33,7 @@ class _ContentMain extends State<BluetoothCheckPage> {
         debugPrint('BluetoothCheckPage: ${r.device.id} found! rssi: ${r.rssi}');
         debugPrint('BluetoothCheckPage: ' + results.toString());
         // if (r.device.id.toString() == 'B8:27:EB:99:1E:99') {
-        if (r.device.id.toString() == '73:B1:5F:4F:60:DE') {
+        if (r.device.id.toString() == 'E8:AB:FA:40:6A:5E') {
           deviceRequired = r.device;
 
           debugPrint('BluetoothCheckPage: The device has been found');
