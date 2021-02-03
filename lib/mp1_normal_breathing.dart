@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:body_tune/helper.dart';
 import 'package:body_tune/mp2_swallowing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Mp1NormalBreathing extends StatefulWidget {
   @override
@@ -12,6 +15,26 @@ class Mp1NormalBreathing extends StatefulWidget {
 }
 
 class _ContentMain extends State<Mp1NormalBreathing> {
+  Timer _timer;
+  SharedPreferences preferences;
+
+  _ContentMain() {
+    _timer = Timer(const Duration(milliseconds: 5000), () async {
+      // if (userString == null) {
+      if (true) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Mp2Swallowing()),
+        );
+      }
+    });
+  }
+
+  getSharedPreferences() async {
+    this.preferences = await SharedPreferences.getInstance();
+    String userString = preferences.getString('user');
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -34,7 +57,7 @@ class _ContentMain extends State<Mp1NormalBreathing> {
             Spacer(),
             Container(
               //height: 200.0,
-             // color: CustomColor().background,
+              // color: CustomColor().background,
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 40.0),
                 color: Theme.of(context).primaryColor,
@@ -42,25 +65,32 @@ class _ContentMain extends State<Mp1NormalBreathing> {
               ),
             ),
             Spacer(),
-            RaisedButton(
-              splashColor: Theme.of(context).primaryColor,
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              // color: Theme.of(context).accentColor,
-              onPressed: () async {
-                // if (_formKey.currentState.validate()) {
-                if (true) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Mp2Swallowing()),
-                  );
-                }
-              },
-            ),
+            Container(
+                child: Text(
+              '         Note: Please take deep breaths for 10 secs',
+              //style: textBody1(context),
+            )),
+
+            Spacer(),
+            // RaisedButton(
+            //   splashColor: Theme.of(context).primaryColor,
+            //   child: Text(
+            //     'Next',
+            //     style: TextStyle(
+            //       color: Colors.white,
+            //     ),
+            //   ),
+            //   // color: Theme.of(context).accentColor,
+            //   onPressed: () async {
+            //     // if (_formKey.currentState.validate()) {
+            //     if (true) {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => Mp2Swallowing()),
+            //       );
+            //     }
+            //   },
+            // ),
           ],
         ),
       ),

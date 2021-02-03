@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:body_tune/home_page.dart';
 import 'package:body_tune/mp1_normal_breathing.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,6 +16,18 @@ class Mp5Apnea extends StatefulWidget {
 }
 
 class _ContentMain extends State<Mp5Apnea> {
+  Timer _timer;
+  _ContentMain() {
+    _timer = Timer(const Duration(milliseconds: 5000), () async {
+      // if (userString == null) {
+      if (true) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -44,25 +58,31 @@ class _ContentMain extends State<Mp5Apnea> {
               ),
             ),
             Spacer(),
-            RaisedButton(
-              splashColor: Theme.of(context).primaryColor,
-              child: Text(
-                'Finish',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              // color: Theme.of(context).accentColor,
-              onPressed: () async {
-                // if (_formKey.currentState.validate()) {
-                if (true) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
-                }
-              },
-            ),
+            Container(
+                child: Text(
+                  'Note: Please take deep breathe and hold for 10 secs',
+                  //style: textBody1(context),
+                )),
+            Spacer(),
+            // RaisedButton(
+            //   splashColor: Theme.of(context).primaryColor,
+            //   child: Text(
+            //     'Finish',
+            //     style: TextStyle(
+            //       color: Colors.white,
+            //     ),
+            //   ),
+            //   // color: Theme.of(context).accentColor,
+            //   onPressed: () async {
+            //     // if (_formKey.currentState.validate()) {
+            //     if (true) {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => HomePage()),
+            //       );
+            //     }
+            //   },
+            // ),
           ],
         ),
       ),

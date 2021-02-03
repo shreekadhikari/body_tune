@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:body_tune/mp3_coughing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,19 @@ class Mp2Swallowing extends StatefulWidget {
 }
 
 class _Contentbox extends State<Mp2Swallowing> {
+  Timer _timer;
+  _Contentbox() {
+    _timer = Timer(const Duration(milliseconds: 5000), () async {
+
+      // if (userString == null) {
+      if (true) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Mp3Coughing()),
+        );
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -43,25 +58,31 @@ class _Contentbox extends State<Mp2Swallowing> {
               ),
             ),
             Spacer(),
-            RaisedButton(
-              splashColor: Theme.of(context).primaryColor,
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              // color: Theme.of(context).accentColor,
-              onPressed: () async {
-                // if (_formKey.currentState.validate()) {
-                if (true) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Mp3Coughing()),
-                  );
-                }
-              },
-            ),
+            Container(
+                child: Text(
+                  '                   Note: Please swallow for 10 secs',
+                  //style: textBody1(context),
+                )),
+            Spacer(),
+            // RaisedButton(
+            //   splashColor: Theme.of(context).primaryColor,
+            //   child: Text(
+            //     'Next',
+            //     style: TextStyle(
+            //       color: Colors.white,
+            //     ),
+            //   ),
+            //   // color: Theme.of(context).accentColor,
+            //   onPressed: () async {
+            //     // if (_formKey.currentState.validate()) {
+            //     if (true) {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => Mp3Coughing()),
+            //       );
+            //     }
+            //   },
+            // ),
           ],
         ),
       ),
