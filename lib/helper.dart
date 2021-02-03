@@ -96,6 +96,15 @@ class CustomText {
   ];
 }
 
+class SPText{
+  final String user = 'user';
+  final String normalBreathing = 'normalBreathing';
+  final String guidedBreathing = 'guidedBreathing';
+  final String coughing = 'coughing';
+  final String swallowing = 'swallowing';
+  final String apnea = 'apnea';
+}
+
 textBody1(BuildContext context) {
   return Theme.of(context).textTheme.bodyText1;
 }

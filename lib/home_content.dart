@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:body_tune/bluetooth_check_page.dart';
 import 'package:body_tune/mp1_normal_breathing.dart';
 import 'package:body_tune/settings_page.dart';
-import 'package:body_tune/timer.dart';
 import 'package:body_tune/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -75,7 +75,7 @@ class _ContentMain extends State<HomeContent> {
             Spacer(),
             widgetStartMeasurement(),
             Spacer(flex: 2),
-            widgetUserInfoDebug(),
+            // widgetUserInfoDebug(),
           ],
         ));
   }
@@ -150,7 +150,7 @@ class _ContentMain extends State<HomeContent> {
         onPressed: () async {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Mp1NormalBreathing()),
+            MaterialPageRoute(builder: (context) => BluetoothCheckPage()),
           );
         },
       ),

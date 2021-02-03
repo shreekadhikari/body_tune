@@ -3,6 +3,7 @@ import 'package:body_tune/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -13,10 +14,39 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _ContentMain extends State<SettingsPage> {
-  String value1 = '3';
-  String value2 = '3';
-  String value3 = '3';
-  String value4 = '3';
+  SharedPreferences preferences;
+
+  String normalBreathing = '1';
+  String guidedBreathing = '1';
+  String coughing = '1';
+  String swallowing = '1';
+  String apnea = '1';
+
+  bool showSetting = false;
+
+  _ContentMain() {
+    getSharedPreferences();
+  }
+
+  getSharedPreferences() async {
+    this.preferences = await SharedPreferences.getInstance();
+    normalBreathing = preferences.getString(SPText().normalBreathing);
+    guidedBreathing = preferences.getString(SPText().guidedBreathing);
+    coughing = preferences.getString(SPText().coughing);
+    swallowing = preferences.getString(SPText().swallowing);
+    apnea = preferences.getString(SPText().apnea);
+
+    debugPrint('SettingsPage NormalBreathing: ' +
+        preferences.getString('normalBreathing'));
+
+    setState(() {
+      showSetting = true;
+    });
+  }
+
+  storeInSharedPreferences(String key, String value) async {
+    await preferences.setString(key, value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,144 +63,239 @@ class _ContentMain extends State<SettingsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              padding: EdgeInsets.only(bottom: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Time before test begin:',
-                    style: textBody1(context),
-                  ),
-                  DropdownButton(
-                    value: value1,
-                    items: CustomText()
-                        .dummyList
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        value1 = newValue;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(bottom: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Gap between tests:',
-                    style: textBody1(context),
-                  ),
-                  DropdownButton(
-                    value: value2,
-                    items: CustomText()
-                        .dummyList
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        value2 = newValue;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(bottom: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text(
-                    'Time for breathing:',
-                    style: textBody1(context),
-                  ),
-                  DropdownButton(
-                    value: value3,
-                    items: CustomText()
-                        .dummyList
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        value3 = newValue;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              color: CustomColor().background,
-              padding: EdgeInsets.only(bottom: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Time for coughing:',
-                    style: textBody1(context),
-                  ),
-                  DropdownButton(
-                    value: value4,
-                    items: CustomText()
-                        .dummyList
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        value4 = newValue;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
+            _widgetNormalBreathing(),
+            _widgetGuidedBreathing(),
+            _widgetCoughing(),
+            _widgetSwalloing(),
+            _widgetApnea(),
             Expanded(
               child: Container(
                 color: CustomColor().background,
               ),
             ),
-            RaisedButton(
-              splashColor: Theme.of(context).primaryColor,
-              child: Text(
-                'Save',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              // color: Theme.of(context).accentColor,
-              onPressed: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
-                );
-              },
-            )
+            _widgetSaveButton()
           ],
         ),
       ),
+    );
+  }
+
+  _widgetNormalBreathing() {
+    return Container(
+      padding: EdgeInsets.only(bottom: 10.0),
+      child: showSetting
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    'Normal Breathing:',
+                    style: textBody1(context),
+                  ),
+                  flex: 4,
+                ),
+                Expanded(
+                  child: DropdownButton(
+                    value: normalBreathing,
+                    items: CustomText()
+                        .dummyList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        normalBreathing = newValue;
+                      });
+                    },
+                  ),
+                  flex: 1,
+                )
+              ],
+            )
+          : null,
+    );
+  }
+
+  _widgetGuidedBreathing() {
+    return Container(
+      padding: EdgeInsets.only(bottom: 10.0),
+      child: showSetting
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    'Guided Breathing:',
+                    style: textBody1(context),
+                  ),
+                  flex: 4,
+                ),
+                Expanded(
+                  child: DropdownButton(
+                    value: guidedBreathing,
+                    items: CustomText()
+                        .dummyList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        guidedBreathing = newValue;
+                      });
+                    },
+                  ),
+                  flex: 1,
+                )
+              ],
+            )
+          : null,
+    );
+  }
+
+  _widgetCoughing() {
+    return Container(
+      padding: EdgeInsets.only(bottom: 10.0),
+      child: showSetting
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    'Coughing:',
+                    style: textBody1(context),
+                  ),
+                  flex: 4,
+                ),
+                Expanded(
+                  child: DropdownButton(
+                    value: coughing,
+                    items: CustomText()
+                        .dummyList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        coughing = newValue;
+                      });
+                    },
+                  ),
+                  flex: 1,
+                )
+              ],
+            )
+          : null,
+    );
+  }
+
+  _widgetSwalloing() {
+    return Container(
+      padding: EdgeInsets.only(bottom: 10.0),
+      child: showSetting
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    'Swallowing:',
+                    style: textBody1(context),
+                  ),
+                  flex: 4,
+                ),
+                Expanded(
+                  child: DropdownButton(
+                    value: swallowing,
+                    items: CustomText()
+                        .dummyList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        swallowing = newValue;
+                      });
+                    },
+                  ),
+                  flex: 1,
+                )
+              ],
+            )
+          : null,
+    );
+  }
+
+  _widgetApnea() {
+    return Container(
+      padding: EdgeInsets.only(bottom: 10.0),
+      child: showSetting
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    'Apnea:',
+                    style: textBody1(context),
+                  ),
+                  flex: 4,
+                ),
+                Expanded(
+                  child: DropdownButton(
+                    value: apnea,
+                    items: CustomText()
+                        .dummyList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        apnea = newValue;
+                      });
+                    },
+                  ),
+                  flex: 1,
+                )
+              ],
+            )
+          : null,
+    );
+  }
+
+  _widgetSaveButton() {
+    return RaisedButton(
+      splashColor: Theme.of(context).primaryColor,
+      child: Text(
+        'Save',
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+      onPressed: () async {
+        storeInSharedPreferences(SPText().normalBreathing, normalBreathing);
+        storeInSharedPreferences(SPText().guidedBreathing, guidedBreathing);
+        storeInSharedPreferences(SPText().coughing, coughing);
+        storeInSharedPreferences(SPText().swallowing, swallowing);
+        storeInSharedPreferences(SPText().apnea, apnea);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      },
     );
   }
 }

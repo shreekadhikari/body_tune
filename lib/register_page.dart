@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:body_tune/helper.dart';
 import 'package:body_tune/more_info_page.dart';
+import 'package:body_tune/settings_page.dart';
 import 'package:body_tune/user.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -18,10 +20,16 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _ContentMain extends State<RegisterPage> {
+  TextEditingController fnameController, dateController, heightController;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    fnameController = TextEditingController();
+    dateController = TextEditingController();
+    heightController = TextEditingController();
+  //  _ref = FirebaseDatabase.instance.reference().child('userdetail');
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -31,9 +39,7 @@ class _ContentMain extends State<RegisterPage> {
   String _selectedDate;
   int _selectedHeight;
 
-  final fnameController = TextEditingController();
-  final dateController = TextEditingController();
-  final heightController = TextEditingController();
+ //  DatabaseReference _ref;
 
   Future _selectDate() async {
     final DateTime picked = await showDatePicker(
@@ -50,9 +56,9 @@ class _ContentMain extends State<RegisterPage> {
       });
   }
 
-  storeInSharedPreferenes(String value) async {
+  storeInSharedPreferences(String key, String value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString('user', value);
+    await preferences.setString(key, value);
   }
 
   @override
@@ -239,29 +245,53 @@ class _ContentMain extends State<RegisterPage> {
         style: TextStyle(color: Colors.white),
       ),
       onPressed: () async {
-        // if (_formKey.currentState.validate()) {
+        // color: Theme.of(context).accentColor,
+        //if (_formKey.currentState.validate()) {
         if (true) {
-          UserInfo newUser = UserInfo(fnameController.text, dateController.text,
-              _dropDownGender, _dropDownSmoke, _selectedHeight.toString());
+//        saveuserdetail();
+          if (true) {
+            UserInfo newUser = UserInfo(
+                fnameController.text, dateController.text,
+                _dropDownGender, _dropDownSmoke, _selectedHeight.toString());
 
-          debugPrint('User: ' + newUser.toString());
+            debugPrint('RegisterPage User: ' + newUser.toString());
 
-          String userString = jsonEncode(newUser);
+            String userString = jsonEncode(newUser);
 
-          debugPrint('User JSON: ' + userString);
+            debugPrint('RegisterPage UserJSON: ' + userString);
 
-          UserInfo testUser = UserInfo.fromJson(jsonDecode(userString));
+            UserInfo testUser = UserInfo.fromJson(jsonDecode(userString));
 
-          debugPrint('Test User: ' + testUser.toString());
+            debugPrint('RegisterPage TestUser: ' + testUser.toString());
 
-          storeInSharedPreferenes(userString);
+            storeInSharedPreferences(SPText().user, userString);
+            storeInSharedPreferences(SPText().normalBreathing, '1');
+            storeInSharedPreferences(SPText().guidedBreathing, '2');
+            storeInSharedPreferences(SPText().coughing, '3');
+            storeInSharedPreferences(SPText().swallowing, '4');
+            storeInSharedPreferences(SPText().apnea, '5');
 
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MoreInfoPage()),
-          );
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MoreInfoPage()),
+            );
+          }
         }
-      },
-    );
+      });
   }
+
+ /* void saveuserdetail(){
+  String name = fnameController.text;
+  String date = dateController.text;
+  String height = heightController.text;
+
+  Map<String,String> userdetail = {
+    'name':name,
+    'date':date,
+    'height': height,
+  };
+    _ref.push().set(userdetail).then((value) {
+  });
+
+ }*/
 }
