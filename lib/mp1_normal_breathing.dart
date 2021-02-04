@@ -15,11 +15,17 @@ class Mp1NormalBreathing extends StatefulWidget {
 }
 
 class _ContentMain extends State<Mp1NormalBreathing> {
-  Timer _timer;
+  int time;
   SharedPreferences preferences;
 
   _ContentMain() {
-    _timer = Timer(const Duration(milliseconds: 5000), () async {
+    getSharedPreferences();
+  }
+
+  getSharedPreferences() async {
+    this.preferences = await SharedPreferences.getInstance();
+    time = int.parse(preferences.getString(SPText().normalBreathing));
+    Timer(Duration(seconds: time), () async {
       // if (userString == null) {
       if (true) {
         Navigator.push(
@@ -28,11 +34,6 @@ class _ContentMain extends State<Mp1NormalBreathing> {
         );
       }
     });
-  }
-
-  getSharedPreferences() async {
-    this.preferences = await SharedPreferences.getInstance();
-    String userString = preferences.getString('user');
   }
 
   @override

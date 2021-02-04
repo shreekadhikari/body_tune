@@ -30,8 +30,7 @@ class _ContentMain extends State<SplashScreen> {
         debugPrint('SplashScreen User: ' + userString);
       }
 
-      // if (userString == null) {
-      if (false) {
+      if (userString == null) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => RegisterPage()),

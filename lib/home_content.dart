@@ -93,9 +93,6 @@ class _ContentMain extends State<HomeContent> {
       color: Colors.white,
       onPressed: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SettingsPage()));
-        // showSnackBar(context, 'Settings');
-        Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => SettingsPage()),
         );
@@ -150,7 +147,7 @@ class _ContentMain extends State<HomeContent> {
         onPressed: () async {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => BluetoothCheckPage()),
+            MaterialPageRoute(builder: (context) => Mp1NormalBreathing()),
           );
         },
       ),

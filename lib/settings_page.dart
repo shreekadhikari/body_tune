@@ -288,10 +288,7 @@ class _ContentMain extends State<SettingsPage> {
         storeInSharedPreferences(SPText().swallowing, swallowing);
         storeInSharedPreferences(SPText().apnea, apnea);
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
+        Navigator.pop(context);
       },
     );
   }
