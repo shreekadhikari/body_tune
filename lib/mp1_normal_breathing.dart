@@ -68,7 +68,7 @@ class _ContentMain extends State<Mp1NormalBreathing> {
             Spacer(),
             Container(
                 child: Text(
-              '         Note: Please take deep breaths for 10 secs',
+              '         ACTION: PLEASE TAKE DEEP BREATHS',
               //style: textBody1(context),
             )),
 
