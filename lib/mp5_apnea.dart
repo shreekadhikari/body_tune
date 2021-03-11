@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:body_tune/bmicalc_page.dart';
 import 'package:body_tune/home_page.dart';
 import 'package:body_tune/mp1_normal_breathing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'helper.dart';
 
@@ -16,14 +18,22 @@ class Mp5Apnea extends StatefulWidget {
 }
 
 class _ContentMain extends State<Mp5Apnea> {
-  Timer _timer;
+  int time;
+  SharedPreferences preferences;
+
   _ContentMain() {
-    _timer = Timer(const Duration(milliseconds: 5000), () async {
+    getSharedPreferences();
+  }
+
+  getSharedPreferences() async {
+    this.preferences = await SharedPreferences.getInstance();
+    time = int.parse(preferences.getString(SPText().normalBreathing));
+    Timer(Duration(seconds: time), () async {
       // if (userString == null) {
       if (true) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => BMICalcPage()),
         );
       }
     });
@@ -60,7 +70,7 @@ class _ContentMain extends State<Mp5Apnea> {
             Spacer(),
             Container(
                 child: Text(
-                  'Note: Please take deep breathe and hold for 10 secs',
+                  'ACTION: PLEASE TAKE DEEP BREATH AND HOLD',
                   //style: textBody1(context),
                 )),
             Spacer(),

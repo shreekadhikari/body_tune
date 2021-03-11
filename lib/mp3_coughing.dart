@@ -4,6 +4,7 @@ import 'package:body_tune/mp4_guided_breathing.dart';
 import 'package:body_tune/results_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'helper.dart';
 
@@ -15,9 +16,17 @@ class Mp3Coughing extends StatefulWidget {
   }
 }
 class _ContentMain extends State<Mp3Coughing> {
-  Timer _timer;
+  int time;
+  SharedPreferences preferences;
+
   _ContentMain() {
-    _timer = Timer(const Duration(milliseconds: 5000), () async {
+    getSharedPreferences();
+  }
+
+  getSharedPreferences() async {
+    this.preferences = await SharedPreferences.getInstance();
+    time = int.parse(preferences.getString(SPText().normalBreathing));
+    Timer(Duration(seconds: time), () async {
       // if (userString == null) {
       if (true) {
         Navigator.push(
@@ -58,7 +67,7 @@ class _ContentMain extends State<Mp3Coughing> {
             Spacer(),
             Container(
                 child: Text(
-                  '                   Note: Please cough for 10 secs',
+                  '                   ACTION: PLEASE COUGH',
                   //style: textBody1(context),
                 )),
             Spacer(),

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:body_tune/mp3_coughing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'helper.dart';
 
@@ -10,15 +11,22 @@ class Mp2Swallowing extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _Contentbox();
+    return _ContentMain();
   }
 }
 
-class _Contentbox extends State<Mp2Swallowing> {
-  Timer _timer;
-  _Contentbox() {
-    _timer = Timer(const Duration(milliseconds: 5000), () async {
+class _ContentMain extends State<Mp2Swallowing> {
+  int time;
+  SharedPreferences preferences;
 
+  _ContentMain() {
+    getSharedPreferences();
+  }
+
+  getSharedPreferences() async {
+    this.preferences = await SharedPreferences.getInstance();
+    time = int.parse(preferences.getString(SPText().normalBreathing));
+    Timer(Duration(seconds: time), () async {
       // if (userString == null) {
       if (true) {
         Navigator.push(
@@ -60,7 +68,7 @@ class _Contentbox extends State<Mp2Swallowing> {
             Spacer(),
             Container(
                 child: Text(
-                  '                   Note: Please swallow for 10 secs',
+                  '                   ACTION: PLEASE DO SWALLOW',
                   //style: textBody1(context),
                 )),
             Spacer(),

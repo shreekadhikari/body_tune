@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:body_tune/helper.dart';
 import 'package:body_tune/mp5_apnea.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class Mp4GuidedBreathing extends StatefulWidget {
@@ -13,9 +14,17 @@ class Mp4GuidedBreathing extends StatefulWidget {
 
 class _Mp4GuidedBreathingState extends State<Mp4GuidedBreathing>
     with SingleTickerProviderStateMixin {
-  Timer _timer;
+  int time;
+  SharedPreferences preferences;
+
   _Mp4GuidedBreathingState() {
-    _timer = Timer(const Duration(milliseconds: 5000), () async {
+    getSharedPreferences();
+  }
+
+  getSharedPreferences() async {
+    this.preferences = await SharedPreferences.getInstance();
+    time = int.parse(preferences.getString(SPText().normalBreathing));
+    Timer(Duration(seconds: time), () async {
       // if (userString == null) {
       if (true) {
         Navigator.push(
@@ -88,7 +97,7 @@ class _CupertinoBreatheState extends State<CupertinoBreathe>
           Spacer(),
           Container(
               child: Text(
-                'Note: Please breathe in sync with the breathing bubble for 10 secs',
+                'ACTION: PLEASE BREATHE IN SYNC WITH THE GUIDING BUBBLE',
                 //style: textBody1(context),
               )),
           Spacer(),
