@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:body_tune/activities_page.dart';
 import 'package:body_tune/helper.dart';
 import 'package:body_tune/home_page.dart';
 import 'package:body_tune/register_page.dart';
@@ -21,6 +22,7 @@ class _ContentMain extends State<SplashScreen> {
     _timer = Timer(const Duration(milliseconds: 1500), () async {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       String userString = preferences.getString(SPText().user);
+      DateTime dateTimeCurrent = DateTime.now();
 
       if (userString == null) {
         debugPrint('SplashScreen User: null');
@@ -31,15 +33,35 @@ class _ContentMain extends State<SplashScreen> {
       }
 
       if (userString == null) {
+        preferences.setString(SPText().date, dateTimeCurrent.toString());
+
+        debugPrint('SplashScreen FirstDate: ' + dateTimeCurrent.toString());
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => RegisterPage()),
         );
       } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
+        String dateLastSavedString = preferences.getString(SPText().date);
+
+        DateTime dateLastSaved = DateTime.parse(dateLastSavedString);
+        debugPrint('SplashScreen LastSavedDate: ' + dateLastSaved.toString());
+        var diff = dateTimeCurrent.difference(dateLastSaved);
+
+        if (diff.inSeconds < 30) {
+          debugPrint('SplashScreen Result: Not Yet');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+        } else {
+          debugPrint('SplashScreen Result: Time');
+          preferences.setString(SPText().date, dateTimeCurrent.toString());
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ActivitiesPage()),
+          );
+        }
       }
     });
   }

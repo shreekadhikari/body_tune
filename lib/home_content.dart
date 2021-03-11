@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:body_tune/activities_page.dart';
 import 'package:body_tune/bluetooth_check_page.dart';
 import 'package:body_tune/mp1_normal_breathing.dart';
 import 'package:body_tune/settings_page.dart';
@@ -94,7 +95,7 @@ class _ContentMain extends State<HomeContent> {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SettingsPage()),
+          MaterialPageRoute(builder: (context) => ActivitiesPage()),
         );
       },
     );

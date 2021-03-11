@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:body_tune/home_page.dart';
 import 'package:body_tune/user.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'helper.dart';
@@ -179,12 +180,19 @@ class _ContentMain extends State<ActivitiesPage> {
     UserInfo userInfo = UserInfo.fromJson(jsonDecode(userString));
     userInfo.activity = level;
 
+    String userId = userInfo.firstName + '-' + userInfo.dob;
+    userId = userId.replaceAll('/', '-');
+
+    debugPrint('ActivityPage UserID:' + userId);
+
     debugPrint('ActivityPage UserLevel:' + userInfo.activity);
 
     preferences.setString(SPText().user, jsonEncode(userInfo));
 
     debugPrint('ActivityPage UserWithActivity: ' + userInfo.toString());
 
-    _ref.push().set(userInfo.toJson()).then((value) {});
+    _ref.child(userId).set(userInfo.toJson());
+
+    // _ref.push().set(userInfo.toJson()).then((value) {});
   }
 }

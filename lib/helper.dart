@@ -98,6 +98,7 @@ class CustomText {
 
 class SPText{
   final String user = 'user';
+  final String date = 'dateLastSaved';
   final String normalBreathing = 'normalBreathing';
   final String guidedBreathing = 'guidedBreathing';
   final String coughing = 'coughing';
