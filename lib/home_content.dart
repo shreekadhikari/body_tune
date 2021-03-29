@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:body_tune/activities_page.dart';
 import 'package:body_tune/bluetooth_check_page.dart';
+import 'package:body_tune/bmicalc_page.dart';
+import 'package:body_tune/helper.dart';
 import 'package:body_tune/mp1_normal_breathing.dart';
 import 'package:body_tune/settings_page.dart';
 import 'package:body_tune/user.dart';
@@ -76,6 +78,12 @@ class _ContentMain extends State<HomeContent> {
             Spacer(),
             widgetStartMeasurement(),
             Spacer(flex: 2),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                widgetBMIIndex(),
+              ],
+            )
             // widgetUserInfoDebug(),
           ],
         ));
@@ -95,7 +103,7 @@ class _ContentMain extends State<HomeContent> {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ActivitiesPage()),
+          MaterialPageRoute(builder: (context) => SettingsPage()),
         );
       },
     );
@@ -158,6 +166,32 @@ class _ContentMain extends State<HomeContent> {
   widgetUserInfoDebug() {
     return TextField(
       controller: dataDisplayController,
+    );
+  }
+
+  widgetBMIIndex() {
+    return Container(
+      margin: EdgeInsets.all(10.0),
+      child: RaisedButton(
+        padding: EdgeInsets.all(8.0),
+        child: Text(
+          'BMI',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(15.0)),
+        elevation: 0.0,
+        splashColor: Theme.of(context).accentColor,
+        color: CustomColor().primary,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => BMICalcPage()),
+          );
+        },
+      ),
     );
   }
 }
