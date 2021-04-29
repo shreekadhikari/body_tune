@@ -25,7 +25,7 @@ class _ContentMain extends State<Mp2Swallowing> {
 
   getSharedPreferences() async {
     this.preferences = await SharedPreferences.getInstance();
-    time = int.parse(preferences.getString(SPText().normalBreathing));
+    time = int.parse(preferences.getString(SPText().swallowing));
     Timer(Duration(seconds: time), () async {
       // if (userString == null) {
       if (true) {
