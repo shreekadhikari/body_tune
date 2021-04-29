@@ -29,7 +29,6 @@ class _ContentMain extends State<RegisterPage> {
     fnameController = TextEditingController();
     dateController = TextEditingController();
     heightController = TextEditingController();
-  //  _ref = FirebaseDatabase.instance.reference().child('userdetail');
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -39,7 +38,6 @@ class _ContentMain extends State<RegisterPage> {
   String _selectedDate;
   int _selectedHeight;
 
- //  DatabaseReference _ref;
 
   Future _selectDate() async {
     final DateTime picked = await showDatePicker(
@@ -247,7 +245,13 @@ class _ContentMain extends State<RegisterPage> {
         onPressed: () async {
           // if (_formKey.currentState.validate()) {
           if (true) {
+            String userId = fnameController.text + '-' + dateController.text;
+            userId = userId.replaceAll('/', '-');
+
+            debugPrint('RegisterPage UserID:' + userId);
+
             UserInfo newUser = UserInfo(
+                userId,
                 fnameController.text,
                 dateController.text,
                 _dropDownGender,

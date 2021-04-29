@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   int _currentIndex = 0;
+  bool exit = false;
   List<Widget> _children = [HomeContent(), SummaryContent()];
 
   void onTabTapped(int index) {
@@ -27,7 +28,11 @@ class HomePageState extends State<HomePage> {
     // TODO: implement build
     return WillPopScope(
       onWillPop: () async {
-        return SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+        if (exit) {
+          return SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+        }
+        exit = true;
+        return false;
       },
       child: Scaffold(
         body: _children[_currentIndex],
@@ -35,10 +40,9 @@ class HomePageState extends State<HomePage> {
             onTap: onTabTapped,
             currentIndex: _currentIndex,
             items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home), title: Text('Home')),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.update), title: Text('Summary'))
+                  icon: Icon(Icons.update), label: 'Summary')
             ]),
       ),
     );
