@@ -48,7 +48,7 @@ class _ContentMain extends State<SplashScreen> {
         debugPrint('SplashScreen LastSavedDate: ' + dateLastSaved.toString());
         var diff = dateTimeCurrent.difference(dateLastSaved);
 
-        if (diff.inSeconds < 30) {
+        if (diff.inMinutes < 10) {
           debugPrint('SplashScreen Result: Not Yet');
           Navigator.push(
             context,

@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
+
 import 'package:body_tune/activities_page.dart';
 import 'package:body_tune/bluetooth_check_page.dart';
 import 'package:body_tune/bmicalc_page.dart';
@@ -11,6 +15,7 @@ import 'package:body_tune/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wave_builder/wave_builder.dart';
 
 class HomeContent extends StatefulWidget {
   @override
@@ -23,7 +28,6 @@ class HomeContent extends StatefulWidget {
 class _ContentMain extends State<HomeContent> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -187,12 +191,34 @@ class _ContentMain extends State<HomeContent> {
         splashColor: Theme.of(context).accentColor,
         color: CustomColor().primary,
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ResultsPage()),
-          );
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => BluetoothCheckPage()),
+          // );
+
+          checkFile();
         },
       ),
     );
+  }
+
+  void checkFile() async {
+    var bytes;
+    try {
+      // bytes = await File('assets/wav/1924.wav').readAsBytes();
+      // bytes = await rootBundle.load('assets/wav/signal.txt');
+      bytes = await rootBundle.load('assets/wav/1924.wav');
+      // Directory tempDir = await getTemporaryDirectory();
+
+      // bytes = Base64Encoder(bytes);
+      // bytes = await rootBundle.load('assets/images/logo_body_tune.jpeg');
+      // bytes = bytes.buffer.asInt16List(74);
+      // File file = File('assets/wav/out.txt');
+      // file.writeAsString(bytes.toString());
+    } catch (e) {
+      print(e);
+    }
+    debugPrint('HomePage: ' + bytes.toString());
+
   }
 }
