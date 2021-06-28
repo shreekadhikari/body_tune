@@ -27,7 +27,7 @@ class _ContentMain extends State<Mp5Apnea> {
 
   getSharedPreferences() async {
     this.preferences = await SharedPreferences.getInstance();
-    time = int.parse(preferences.getString(SPText().normalBreathing));
+    time = int.parse(preferences.getString(SPText().apnea));
     Timer(Duration(seconds: time), () async {
       // if (userString == null) {
       if (true) {

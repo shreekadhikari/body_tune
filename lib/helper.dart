@@ -8,6 +8,13 @@ class CustomColor {
   Color alternateBackground = Color(0xFFD9D2D5);
 }
 
+class FirebaseText {
+  String userInfo = 'UserInfo';
+  String userInfoCounter = 'UserInfoCounter';
+  String testInfo = 'TestInfo';
+  String testInfoCounter = 'TestInfoCounter';
+}
+
 class CustomText {
   String heightDialogTitle = 'Height is cm';
   String fitness = 'Rate yourself for fitness';
@@ -96,14 +103,17 @@ class CustomText {
   ];
 }
 
-class SPText{
+class SPText {
   final String user = 'user';
+  final String userCounter = 'userCounter';
   final String date = 'dateLastSaved';
   final String normalBreathing = 'normalBreathing';
   final String guidedBreathing = 'guidedBreathing';
   final String coughing = 'coughing';
   final String swallowing = 'swallowing';
   final String apnea = 'apnea';
+  final String testDateList = 'testDateList';
+  final String testResultList = 'testResultList';
 }
 
 textBody1(BuildContext context) {

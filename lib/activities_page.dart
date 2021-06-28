@@ -63,7 +63,7 @@ class _ContentMain extends State<ActivitiesPage> {
   @override
   void initState() {
     super.initState();
-    _ref = FirebaseDatabase.instance.reference().child('UserInfo');
+    _ref = FirebaseDatabase.instance.reference();
   }
 
   widgetDaysAndHours() {
@@ -119,7 +119,6 @@ class _ContentMain extends State<ActivitiesPage> {
             String activityLevel = calculateActivityLevel(dropDownActivity);
 
             storeActivityLevel(activityLevel);
-            //storeUserDetail();
 
             Navigator.push(
               context,
@@ -180,19 +179,40 @@ class _ContentMain extends State<ActivitiesPage> {
     UserInfo userInfo = UserInfo.fromJson(jsonDecode(userString));
     userInfo.activity = level;
 
-    String userId = userInfo.firstName + '-' + userInfo.dob;
-    userId = userId.replaceAll('/', '-');
-
-    debugPrint('ActivityPage UserID:' + userId);
+    preferences.setString(SPText().user, jsonEncode(userInfo));
 
     debugPrint('ActivityPage UserLevel:' + userInfo.activity);
 
-    preferences.setString(SPText().user, jsonEncode(userInfo));
-
     debugPrint('ActivityPage UserWithActivity: ' + userInfo.toString());
 
-    _ref.child(userId).set(userInfo.toJson());
-
-    // _ref.push().set(userInfo.toJson()).then((value) {});
+    _ref
+        .child(FirebaseText().userInfoCounter)
+        .once()
+        .then((DataSnapshot snapshot) {
+      if (snapshot.value != null) {
+        String userCounter = preferences.getString(SPText().userCounter);
+        if (userCounter == null) {
+          int data = int.parse(snapshot.value);
+          data += 1;
+          print('ActivitiesPage FullData : ' + data.toString());
+          _ref.child(FirebaseText().userInfoCounter).set(data.toString());
+          _ref
+              .child(FirebaseText().userInfo)
+              .child(data.toString())
+              .set(userInfo.toJson());
+          preferences.setString(SPText().userCounter, data.toString());
+        } else {
+          _ref
+              .child(FirebaseText().userInfo)
+              .child(userCounter.toString())
+              .set(userInfo.toJson());
+        }
+      } else {
+        print('ActivitiesPage FullData : No data');
+        _ref.child(FirebaseText().userInfoCounter).set('0');
+        _ref.child(FirebaseText().userInfo).child('0').set(userInfo.toJson());
+        preferences.setString(SPText().userCounter, '0');
+      }
+    });
   }
 }

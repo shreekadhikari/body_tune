@@ -23,7 +23,7 @@ class _Mp4GuidedBreathingState extends State<Mp4GuidedBreathing>
 
   getSharedPreferences() async {
     this.preferences = await SharedPreferences.getInstance();
-    time = int.parse(preferences.getString(SPText().normalBreathing));
+    time = int.parse(preferences.getString(SPText().guidedBreathing));
     Timer(Duration(seconds: time), () async {
       // if (userString == null) {
       if (true) {

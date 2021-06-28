@@ -2,31 +2,39 @@ import 'package:body_tune/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class SummaryContent extends StatelessWidget {
-  List<String> date = [
-    '05/02/2020',
-    '04/03/2020',
-    '06/05/2020',
-    '05/06/2020',
-    '06/08/2020'
-  ];
-  List<String> bpm = ['120 bpm', '115 bpm', '125 bpm', '123 bpm', '118 bpm'];
-  List<String> bmiIndex = ['24.5', '25', '25.2', '25.4', '24.8'];
+class SummaryContent extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _ContentMain();
+  }
+}
+
+class _ContentMain extends State<SummaryContent> {
+  SharedPreferences preferences;
+
+  List<String> listResult = [];
+  List<String> listDate = [];
 
   @override
   Widget build(BuildContext context) {
+    sharedPreferences();
+
     // TODO: implement build
     return Scaffold(
-      backgroundColor: CustomColor().alternateBackground,
       appBar: AppBar(
         title: Text('Summary'),
+        automaticallyImplyLeading: false,
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: date.length,
+              itemCount: listResult.length == null ? 0 : listResult.length,
+              shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
                 return Card(
                   margin: EdgeInsets.fromLTRB(40.0, 20.0, 40.0, 0.0),
@@ -36,23 +44,16 @@ class SummaryContent extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Date: ' + date[index],
+                          'Date: ' + listDate[index],
                           style: textBody1(context),
                         ),
                         Container(
                           height: 8.0,
                         ),
                         Text(
-                          'Heart Rate: ' + bpm[index],
+                          'Heart Rate: ' + listResult[index],
                           style: textHeading1(context),
                         ),
-                        Container(
-                          height: 8.0,
-                        ),
-                        Text(
-                          'BMI: ' + bmiIndex[index],
-                          style: textBody2(context),
-                        )
                       ],
                     ),
                   ),
@@ -63,5 +64,13 @@ class SummaryContent extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void sharedPreferences() async {
+    this.preferences = await SharedPreferences.getInstance();
+    setState(() {
+      listResult = preferences.getStringList(SPText().testResultList);
+      listDate = preferences.getStringList(SPText().testDateList);
+    });
   }
 }

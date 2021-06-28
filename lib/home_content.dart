@@ -5,6 +5,7 @@ import 'package:body_tune/bluetooth_check_page.dart';
 import 'package:body_tune/bmicalc_page.dart';
 import 'package:body_tune/helper.dart';
 import 'package:body_tune/mp1_normal_breathing.dart';
+import 'package:body_tune/results_page.dart';
 import 'package:body_tune/settings_page.dart';
 import 'package:body_tune/user.dart';
 import 'package:flutter/material.dart';
@@ -188,7 +189,7 @@ class _ContentMain extends State<HomeContent> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => BMICalcPage()),
+            MaterialPageRoute(builder: (context) => ResultsPage()),
           );
         },
       ),
