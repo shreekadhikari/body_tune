@@ -1,13 +1,14 @@
 import 'dart:async';
 
-import 'package:body_tune/helper.dart';
-import 'package:body_tune/mp4_swallowing.dart';
-import 'package:body_tune/mp2_apnea.dart';
+import 'package:body_tune/questionnaire_page.dart';
+import 'package:body_tune/results_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Mp1NormalBreathing extends StatefulWidget {
+import 'helper.dart';
+
+class Mp5Coughing extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -15,7 +16,7 @@ class Mp1NormalBreathing extends StatefulWidget {
   }
 }
 
-class _ContentMain extends State<Mp1NormalBreathing> {
+class _ContentMain extends State<Mp5Coughing> {
   int time;
   SharedPreferences preferences;
 
@@ -25,13 +26,13 @@ class _ContentMain extends State<Mp1NormalBreathing> {
 
   getSharedPreferences() async {
     this.preferences = await SharedPreferences.getInstance();
-    time = int.parse(preferences.getString(SPText().normalBreathing));
+    time = int.parse(preferences.getString(SPText().coughing));
     Timer(Duration(seconds: time), () async {
       // if (userString == null) {
       if (true) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Mp2Apnea()),
+          MaterialPageRoute(builder: (context) => QuestionnairePage()),
         );
       }
     });
@@ -44,7 +45,7 @@ class _ContentMain extends State<Mp1NormalBreathing> {
         child: Scaffold(
           appBar: AppBar(
               title: Text(
-                'Normal Breathing',
+                'Coughing',
                 textAlign: TextAlign.center,
                 // style: textHeading1(context),
               ),
@@ -61,12 +62,11 @@ class _ContentMain extends State<Mp1NormalBreathing> {
                   flex: 2,
                 ),
                 Container(
-                  //height: 200.0,
-                  // color: CustomColor().background,
+                  // height: 200.0,
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 40.0),
                     color: Theme.of(context).primaryColor,
-                    child: Image.asset('assets/images/breathe_gif.gif'),
+                    child: Image.asset('assets/images/coughing_gif.gif'),
                   ),
                 ),
                 Spacer(
@@ -75,7 +75,8 @@ class _ContentMain extends State<Mp1NormalBreathing> {
                 Container(
                     alignment: Alignment.center,
                     child: Text(
-                      'ACTION: PLEASE TAKE DEEP BREATHS',
+                      'ACTION: PLEASE COUGH',
+                      //style: textBody1(context),
                     )),
                 Spacer(
                   flex: 1,

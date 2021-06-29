@@ -6,6 +6,7 @@ import 'package:body_tune/user.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'helper.dart';
@@ -21,11 +22,20 @@ class ResultsPage extends StatefulWidget {
 class _ContentMain extends State<ResultsPage> {
   SharedPreferences preferences;
   DatabaseReference _ref;
+  String bmiLast;
 
   @override
   void initState() {
     super.initState();
+    init();
+  }
+
+  void init() async {
     _ref = FirebaseDatabase.instance.reference();
+    this.preferences = await SharedPreferences.getInstance();
+    setState(() {
+      bmiLast = preferences.getString(SPText().bmi);
+    });
   }
 
   @override
@@ -33,10 +43,9 @@ class _ContentMain extends State<ResultsPage> {
     // TODO: implement build
     return WillPopScope(
         child: _widgetContent(),
-        onWillPop: () async => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            ));
+        onWillPop: () async {
+          return false;
+        });
   }
 
   _widgetContent() {
@@ -50,10 +59,18 @@ class _ContentMain extends State<ResultsPage> {
         automaticallyImplyLeading: false,
       ),
       body: Container(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(40.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Container(
+              // alignment: Alignment.center,
+              child: Text(
+                'Congratulations!!',
+                style: TextStyle(fontSize: 36, color: CustomColor().accent),
+              ),
+            ),
+            Spacer(),
             Text(
               'Heart Rate:',
               style: TextStyle(
@@ -64,15 +81,17 @@ class _ContentMain extends State<ResultsPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Spacer(),
+            Spacer(
+              flex: 2,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.baseline,
+              // crossAxisAlignment: CrossAxisAlignment.baseline,
               children: [
                 Text(
                   '80',
                   style: TextStyle(
-                    fontSize: 256,
+                    fontSize: 160,
                     // color: Colors.grey,
                     fontFamily: 'Arial',
                     fontStyle: FontStyle.italic,
@@ -91,18 +110,10 @@ class _ContentMain extends State<ResultsPage> {
                 )
               ],
             ),
-            // Center(
-            //   child: Text(
-            //     '80',
-            //     style: TextStyle(
-            //       fontSize: 256,
-            //       // color: Colors.grey,
-            //       fontFamily: 'Arial',
-            //       fontStyle: FontStyle.italic,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            // ),
+            Container(
+              margin: EdgeInsets.all(20.0),
+              child: Text('Your Last BMI Index: $bmiLast'),
+            ),
             Spacer(
               flex: 3,
             ),
@@ -134,7 +145,6 @@ class _ContentMain extends State<ResultsPage> {
   }
 
   void storeResult() async {
-    this.preferences = await SharedPreferences.getInstance();
     String userString = preferences.getString(SPText().user);
     List<String> listResult =
         preferences.getStringList(SPText().testResultList);
@@ -142,7 +152,8 @@ class _ContentMain extends State<ResultsPage> {
 
     UserInfo userInfo = UserInfo.fromJson(jsonDecode(userString));
 
-    String dateTime = DateTime.now().toString();
+    String dateTime =
+        DateFormat("yyyy-MM-dd hh:mm").format(DateTime.now()).toString();
     String result = '80';
     int data;
 

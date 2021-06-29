@@ -35,7 +35,7 @@ class _ContentMain extends State<MoreInfoPage> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.8,
+
           decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
           padding: EdgeInsets.all(28.0),
           margin: EdgeInsets.all(40.0),
@@ -53,7 +53,9 @@ class _ContentMain extends State<MoreInfoPage> {
                 _widgetCoronary(),
                 _widgetAngioplasty(),
                 _widgetEndarterectomy(),
-                Spacer(),
+                SizedBox(
+                  height: 100.0,
+                ),
                 _widgetRegister(),
               ],
               // Column(

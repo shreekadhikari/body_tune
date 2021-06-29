@@ -3,18 +3,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
 void main() async {
   runApp(BodyTune());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
 }
 
 class BodyTune extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createSyoututate
     return BodyTuneState();
   }
 }

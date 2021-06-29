@@ -17,10 +17,10 @@ class _ContentMain extends State<SettingsPage> {
   SharedPreferences preferences;
 
   String normalBreathing = '1';
-  String guidedBreathing = '1';
-  String coughing = '1';
-  String swallowing = '1';
   String apnea = '1';
+  String guidedBreathing = '1';
+  String swallowing = '1';
+  String coughing = '1';
 
   bool showSetting = false;
 
@@ -64,10 +64,10 @@ class _ContentMain extends State<SettingsPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _widgetNormalBreathing(),
-            _widgetGuidedBreathing(),
-            _widgetCoughing(),
-            _widgetSwallowing(),
             _widgetApnea(),
+            _widgetGuidedBreathing(),
+            _widgetSwallowing(),
+            _widgetCoughing(),
             Spacer(),
             Text('All time is in seconds'),
             _widgetSaveButton()

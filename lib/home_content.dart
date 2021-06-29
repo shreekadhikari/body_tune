@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 
 import 'package:body_tune/activities_page.dart';
-import 'package:body_tune/bluetooth_check_page.dart';
+import 'package:body_tune/bluetooth_page.dart';
 import 'package:body_tune/bmicalc_page.dart';
 import 'package:body_tune/helper.dart';
 import 'package:body_tune/mp1_normal_breathing.dart';
@@ -14,6 +15,7 @@ import 'package:body_tune/settings_page.dart';
 import 'package:body_tune/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wave_builder/wave_builder.dart';
 
@@ -161,7 +163,7 @@ class _ContentMain extends State<HomeContent> {
         onPressed: () async {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Mp1NormalBreathing()),
+            MaterialPageRoute(builder: (context) => BluetoothCheckPage()),
           );
         },
       ),
@@ -191,12 +193,12 @@ class _ContentMain extends State<HomeContent> {
         splashColor: Theme.of(context).accentColor,
         color: CustomColor().primary,
         onPressed: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => BluetoothCheckPage()),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => BMICalcPage()),
+          );
 
-          checkFile();
+          // checkFile();
         },
       ),
     );
@@ -204,21 +206,103 @@ class _ContentMain extends State<HomeContent> {
 
   void checkFile() async {
     var bytes;
+    List<String> bytes2 = [];
+    List<int> bytes3 = [
+      82,
+      73,
+      70,
+      70,
+      36,
+      112,
+      2,
+      0,
+      87,
+      65,
+      86,
+      69,
+      102,
+      109,
+      116,
+      32,
+      16,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      128,
+      62,
+      0,
+      0,
+      0,
+      125,
+      0,
+      0,
+      2,
+      0,
+      16,
+      0,
+      100,
+      97,
+      116,
+      97,
+      0,
+      112,
+      2,
+      0
+    ];
+    Uint8List bytes4;
+    String tempPath, filePath;
     try {
-      // bytes = await File('assets/wav/1924.wav').readAsBytes();
-      // bytes = await rootBundle.load('assets/wav/signal.txt');
-      bytes = await rootBundle.load('assets/wav/1924.wav');
-      // Directory tempDir = await getTemporaryDirectory();
+      Directory tempDir = await getTemporaryDirectory();
+      tempPath = tempDir.path;
+      filePath = tempPath + '/your_file_copy.wav';
 
-      // bytes = Base64Encoder(bytes);
-      // bytes = await rootBundle.load('assets/images/logo_body_tune.jpeg');
-      // bytes = bytes.buffer.asInt16List(74);
-      // File file = File('assets/wav/out.txt');
-      // file.writeAsString(bytes.toString());
+      // bytes = await rootBundle.load('assets/wav/output.wav');
+      // bytes4 = await bytes.buffer.asUint8List();
+      // bytes = await rootBundle.loadString('assets/wav/your_file.txt');
+      // bytes2 = await (bytes.split(', '));
+      // for (String s in bytes2) {
+      //   bytes3.add(int.parse(s));
+      // }
+      // bytes3 = bytes4.cast<int>();
+
+      // File fileWav = await File(filePath).writeAsBytes(bytes4);
+      // File fileString = await File(tempPath + '/outputCopy.txt')
+      //     .writeAsString(bytes4.toString());
+      // print("Home Content: File saved");
+
+      // File(tempPath + '/your_file_list_string2.txt')
+      //     .writeAsString(bytes2.toString());
+      // File(tempPath + '/your_file_list_int2.txt')
+      //     .writeAsString(bytes3.toString());
+      // File(tempPath + '/your_file_Uint8List2.txt')
+      //     .writeAsString(Uint8List.fromList(bytes3).toString());
+
+      final StorageReference storageRef =
+          FirebaseStorage.instance.ref().child('potato.wav');
+      // final StorageUploadTask uploadTask = storageRef.putFile(
+      //   fileWav,
+      // );
+      // await uploadTask.onComplete;
+      // print("Home Content: Upload Complete");
+      final StorageFileDownloadTask downloadTask =
+          storageRef.writeToFile(File(tempPath + "/hamza.wav"));
     } catch (e) {
       print(e);
     }
-    debugPrint('HomePage: ' + bytes.toString());
 
+    // bytes4 = Uint8List.fromList(bytes3);
+    // File(filePath).writeAsBytes(bytes4);
+    // File(tempPath + '/you_file_copy.txt').writeAsString(bytes4.toString());
+    // print("Home Content: File saved");
+
+    // debugPrint('HomePage: ' + bytes);
+    // debugPrint('HomePage: ' + bytes2.toString());
+    // debugPrint('HomePage: ' + bytes3.toString());
+    // debugPrint('HomePage: ' + Uint8List.fromList(bytes3).toString());
+    // debugPrint('HomePage: ' + bytes4.toString());
   }
 }

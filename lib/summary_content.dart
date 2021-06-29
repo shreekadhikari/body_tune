@@ -19,8 +19,14 @@ class _ContentMain extends State<SummaryContent> {
   List<String> listDate = [];
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     sharedPreferences();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // sharedPreferences();
 
     // TODO: implement build
     return Scaffold(
@@ -33,7 +39,7 @@ class _ContentMain extends State<SummaryContent> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: listResult.length == null ? 0 : listResult.length,
+              itemCount: listResult == null ? 0 : listResult.length,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
                 return Card(

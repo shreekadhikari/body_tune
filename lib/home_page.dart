@@ -38,9 +38,13 @@ class HomePageState extends State<HomePage> {
         body: _children[_currentIndex],
         bottomNavigationBar: BottomNavigationBar(
             onTap: onTabTapped,
+            selectedItemColor: Theme.of(context).primaryColor,
             currentIndex: _currentIndex,
             items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
               BottomNavigationBarItem(
                   icon: Icon(Icons.update), label: 'Summary')
             ]),

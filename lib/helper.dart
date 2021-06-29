@@ -22,7 +22,26 @@ class CustomText {
   String logoLocation = 'assets/images/logo_body_tune.jpeg';
   List<String> genderList = <String>['Male', 'Female', 'Others'];
   List<String> smokeList = <String>['Yes', 'No'];
-  List<String> dummyList = <String>['1', '2', '3', '4', '5', '6', '7', '8'];
+  List<String> dummyList = <String>[
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12'
+  ];
+  List<String> carotidSide = <String>[' Right', ' Left'];
+  List<String> activityLevel = <String>[
+    ' Less than usual',
+    ' As usual',
+    ' More than usual'
+  ];
   List<String> defaultDropDownValue = <String>[
     '0',
     '5 mins',
@@ -114,6 +133,7 @@ class SPText {
   final String apnea = 'apnea';
   final String testDateList = 'testDateList';
   final String testResultList = 'testResultList';
+  final String bmi = 'bmi';
 }
 
 textBody1(BuildContext context) {

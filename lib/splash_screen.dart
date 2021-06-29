@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:body_tune/activities_page.dart';
 import 'package:body_tune/helper.dart';
 import 'package:body_tune/home_page.dart';
+import 'package:body_tune/more_info_page.dart';
 import 'package:body_tune/register_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,7 @@ class _ContentMain extends State<SplashScreen> {
           debugPrint('SplashScreen Result: Not Yet');
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomePage()),
+            MaterialPageRoute(builder: (context) => MoreInfoPage()),
           );
         } else {
           debugPrint('SplashScreen Result: Time');
