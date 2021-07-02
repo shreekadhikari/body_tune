@@ -53,7 +53,7 @@ class _ContentMain extends State<SplashScreen> {
           debugPrint('SplashScreen Result: Not Yet');
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MoreInfoPage()),
+            MaterialPageRoute(builder: (context) => HomePage()),
           );
         } else {
           debugPrint('SplashScreen Result: Time');

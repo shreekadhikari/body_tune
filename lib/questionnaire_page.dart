@@ -3,14 +3,19 @@ import 'package:body_tune/home_page.dart';
 import 'package:body_tune/results_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 
 import 'helper.dart';
 
 class QuestionnairePage extends StatefulWidget {
+  final BluetoothDevice device;
+
+  QuestionnairePage({this.device});
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _ContentMain();
+    return _ContentMain(device);
   }
 }
 
@@ -20,8 +25,15 @@ class _ContentMain extends State<QuestionnairePage> {
   bool checkBoxCurrentWeight = false;
   String checkBoxMeasuredCarotid;
   bool checkBoxActivityLevel = false;
+  BluetoothDevice device;
 
   final _formKey = GlobalKey<FormState>();
+
+  _ContentMain(BluetoothDevice device) {
+    this.device = device;
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +48,10 @@ class _ContentMain extends State<QuestionnairePage> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.8,
+          height: MediaQuery
+              .of(context)
+              .size
+              .height * 0.8,
           decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
           padding: EdgeInsets.all(28.0),
           margin: EdgeInsets.all(40.0),
@@ -172,20 +187,24 @@ class _ContentMain extends State<QuestionnairePage> {
 
   _widgetRegister() {
     return RaisedButton(
-      splashColor: Theme.of(context).primaryColor,
+      splashColor: Theme
+          .of(context)
+          .primaryColor,
       child: Text(
         'RESULTS PAGE',
         style: TextStyle(
           color: Colors.white,
         ),
       ),
-      color: Theme.of(context).accentColor,
+      color: Theme
+          .of(context)
+          .accentColor,
       onPressed: () {
         if (_formKey.currentState.validate()) {
           // if (true) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ResultsPage()),
+            MaterialPageRoute(builder: (context) => ResultsPage(device: device)),
           );
         }
       },

@@ -4,24 +4,31 @@ import 'package:body_tune/questionnaire_page.dart';
 import 'package:body_tune/results_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'helper.dart';
 
 class Mp5Coughing extends StatefulWidget {
+  final BluetoothDevice device;
+
+  Mp5Coughing({this.device});
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _ContentMain();
+    return _ContentMain(device);
   }
 }
 
 class _ContentMain extends State<Mp5Coughing> {
   int time;
   SharedPreferences preferences;
+  BluetoothDevice device;
 
-  _ContentMain() {
+  _ContentMain(BluetoothDevice device) {
     getSharedPreferences();
+    this.device = device;
   }
 
   getSharedPreferences() async {
@@ -32,7 +39,7 @@ class _ContentMain extends State<Mp5Coughing> {
       if (true) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => QuestionnairePage()),
+          MaterialPageRoute(builder: (context) => QuestionnairePage(device: device)),
         );
       }
     });

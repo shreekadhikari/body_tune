@@ -20,6 +20,7 @@ class BluetoothCheckPage extends StatefulWidget {
 class _ContentMain extends State<BluetoothCheckPage> {
   FlutterBlue flutterBlue;
   BluetoothDevice deviceRequired;
+  bool isBluetoothConnected = false;
   List<ScanResult> scanResult = [];
 
   @override
@@ -62,16 +63,23 @@ class _ContentMain extends State<BluetoothCheckPage> {
             ),
             Spacer(),
             RaisedButton(
+                color:
+                    !isBluetoothConnected ? Colors.grey : CustomColor().accent,
                 child: Text(
                   'Next',
                   style: TextStyle(color: Colors.white),
                 ),
-                onPressed: () async {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Mp1NormalBreathing()),
-                  );
+                onPressed: () {
+                  if (isBluetoothConnected) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              DataCheckPage(device: deviceRequired)),
+                    );
+                  } else {
+                    print('Bluetooth Page: Button disabled');
+                  }
                 }),
           ],
         ),
@@ -116,62 +124,18 @@ class _ContentMain extends State<BluetoothCheckPage> {
     );
   }
 
-  _widgetStreamBuilder() {
-    return StreamBuilder<List<BluetoothDevice>>(
-      stream: Stream.periodic(Duration(seconds: 2))
-          .asyncMap((_) => FlutterBlue.instance.connectedDevices),
-      initialData: [],
-      builder: (c, snapshot) => Column(
-        children: snapshot.data
-            .map((d) => ListTile(
-                  title: Text(d.name),
-                  subtitle: Text(d.id.toString()),
-                  trailing: StreamBuilder<BluetoothDeviceState>(
-                    stream: d.state,
-                    initialData: BluetoothDeviceState.disconnected,
-                    builder: (c, snapshot) {
-                      if (snapshot.data == BluetoothDeviceState.connected) {
-                        return RaisedButton(
-                          child: Text('OPEN'),
-                          onPressed: () => {},
-                        );
-                      }
-                      return Text(snapshot.data.toString());
-                    },
-                  ),
-                ))
-            .toList(),
-      ),
-    );
-  }
-
   void connectDevice(BluetoothDevice device) async {
-    var characteristics;
-
     deviceRequired = device;
 
     debugPrint('BluetoothCheck ID: ' + device.id.toString());
 
-    List<BluetoothDevice> check = await flutterBlue.connectedDevices;
-
-    debugPrint('BluetoothCheck check: ' + check.toString());
-
-    // device.disconnect();
-    //
     await device.connect();
 
-    // List<BluetoothService> services = await device.discoverServices();
-    //
-    // debugPrint('BluetoothCheck Services: ' + services.toString());
-    //
-    // services.forEach((service) async {
-    //   if (service.uuid.toString() == 'fc4d0876-ca84-11eb-b8bc-0242ac130003') {
-    //     characteristics = service.characteristics;
-    //     for (BluetoothCharacteristic c in characteristics) {
-    //       List<int> value = await c.read();
-    //       debugPrint('BluetoothCheck value:' + value.toString());
-    //     }
-    //   }
-    // });
+    debugPrint('BluetoothCheck Connection: Connected to ${device.id}');
+
+    setState(() {
+      isBluetoothConnected = true;
+      print('Bluetooth Page: Button enabled');
+    });
   }
 }

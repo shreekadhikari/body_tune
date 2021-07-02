@@ -270,10 +270,10 @@ class _ContentMain extends State<RegisterPage> {
 
             storeInSharedPreferences(SPText().user, userString);
             storeInSharedPreferences(SPText().normalBreathing, '1');
-            storeInSharedPreferences(SPText().guidedBreathing, '2');
-            storeInSharedPreferences(SPText().coughing, '3');
-            storeInSharedPreferences(SPText().swallowing, '4');
-            storeInSharedPreferences(SPText().apnea, '5');
+            storeInSharedPreferences(SPText().apnea, '1');
+            storeInSharedPreferences(SPText().guidedBreathing, '1');
+            storeInSharedPreferences(SPText().swallowing, '1');
+            storeInSharedPreferences(SPText().coughing, '1');
 
             Navigator.push(
               context,

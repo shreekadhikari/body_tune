@@ -1,24 +1,32 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:body_tune/bluetooth_page.dart';
 import 'package:body_tune/helper.dart';
 import 'package:body_tune/mp4_swallowing.dart';
 import 'package:body_tune/mp2_apnea.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Mp3GuidedBreathing extends StatefulWidget {
+  final BluetoothDevice device;
+
+  Mp3GuidedBreathing({this.device});
+
   @override
-  _Mp3GuidedBreathingState createState() => _Mp3GuidedBreathingState();
+  _Mp3GuidedBreathingState createState() => _Mp3GuidedBreathingState(device);
 }
 
 class _Mp3GuidedBreathingState extends State<Mp3GuidedBreathing>
     with SingleTickerProviderStateMixin {
   int time;
   SharedPreferences preferences;
+  BluetoothDevice device;
 
-  _Mp3GuidedBreathingState() {
+  _Mp3GuidedBreathingState(BluetoothDevice device) {
     getSharedPreferences();
+    this.device = device;
   }
 
   getSharedPreferences() async {
@@ -29,7 +37,7 @@ class _Mp3GuidedBreathingState extends State<Mp3GuidedBreathing>
       if (true) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Mp4Swallowing()),
+          MaterialPageRoute(builder: (context) => Mp4Swallowing(device: device)),
         );
       }
     });
