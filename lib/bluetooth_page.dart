@@ -22,17 +22,28 @@ class _ContentMain extends State<BluetoothCheckPage> {
   BluetoothDevice deviceRequired;
   bool isBluetoothConnected = false;
   List<ScanResult> scanResult = [];
+  bool showMsg = true;
+  bool firstTimeScan = true;
+  String msg = '';
 
   @override
   void initState() {
     super.initState();
     flutterBlue = FlutterBlue.instance;
+    scanDevices();
+  }
 
+  scanDevices() async {
     flutterBlue.startScan(timeout: Duration(seconds: 4));
 
     flutterBlue.scanResults.listen((results) {
-      setState(() {
+      setState(() async {
         scanResult = results;
+        if (await flutterBlue.isOn) {
+          isBluetoothEnabled(true);
+        } else {
+          isBluetoothEnabled(false);
+        }
       });
     });
 
@@ -49,38 +60,24 @@ class _ContentMain extends State<BluetoothCheckPage> {
       body: Container(
         decoration: BoxDecoration(color: CustomColor().background),
         padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 16.0),
-        margin: EdgeInsets.all(40.0),
+        margin: EdgeInsets.all(24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Visibility(
+              visible: showMsg,
+              child: Text(msg),
+            ),
             RefreshIndicator(
               backgroundColor: CustomColor().primary,
               color: Colors.white,
               strokeWidth: 2.0,
               onRefresh: () =>
-                  FlutterBlue.instance.startScan(timeout: Duration(seconds: 4)),
+                  flutterBlue.startScan(timeout: Duration(seconds: 4)),
               child: _widgetBluetoothDevices(),
             ),
             Spacer(),
-            RaisedButton(
-                color:
-                    !isBluetoothConnected ? Colors.grey : CustomColor().accent,
-                child: Text(
-                  'Next',
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: () {
-                  if (isBluetoothConnected) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              DataCheckPage(device: deviceRequired)),
-                    );
-                  } else {
-                    print('Bluetooth Page: Button disabled');
-                  }
-                }),
+            _widgetNextButton(),
           ],
         ),
       ),
@@ -89,7 +86,9 @@ class _ContentMain extends State<BluetoothCheckPage> {
 
   Widget _widgetBluetoothDevices() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.7,
+      // height: MediaQuery.of(context).size.height * 0.7,
+      constraints:
+          BoxConstraints(maxHeight: MediaQuery.of(context).size.height - 225),
       child: ListView.builder(
         itemCount: scanResult.length,
         itemBuilder: (BuildContext context, int index) {
@@ -103,7 +102,7 @@ class _ContentMain extends State<BluetoothCheckPage> {
                   child: Text(bluetoothDevice.id.toString() +
                       ', ' +
                       bluetoothDevice.name),
-                  flex: 2,
+                  flex: 3,
                 ),
                 Expanded(
                   child: RaisedButton(
@@ -111,10 +110,10 @@ class _ContentMain extends State<BluetoothCheckPage> {
                         'Connect',
                         style: TextStyle(color: Colors.white),
                       ),
-                      onPressed: () async {
+                      onPressed: () {
                         connectDevice(bluetoothDevice);
                       }),
-                  flex: 1,
+                  flex: 2,
                 )
               ],
             ),
@@ -135,7 +134,47 @@ class _ContentMain extends State<BluetoothCheckPage> {
 
     setState(() {
       isBluetoothConnected = true;
-      print('Bluetooth Page: Button enabled');
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("Bluetooth Device connected"),
+    ));
+    print('Bluetooth Page: Button enabled');
+  }
+
+  _widgetNextButton() {
+    return RaisedButton(
+        color: !isBluetoothConnected ? Colors.grey : CustomColor().accent,
+        child: Text(
+          'Next',
+          style: TextStyle(color: Colors.white),
+        ),
+        onPressed: () {
+          if (isBluetoothConnected) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DataCheckPage(device: deviceRequired)),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                "Bluetooth Device not connected",
+              ),
+            ));
+            print('Bluetooth Page: Button disabled');
+          }
+        });
+  }
+
+  isBluetoothEnabled(bool adapter) {
+    setState(() {
+      if (adapter) {
+        showMsg = false;
+      } else {
+        showMsg = true;
+        msg = 'Enable bluetooth and try again';
+      }
     });
   }
 }

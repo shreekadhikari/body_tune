@@ -1,5 +1,3 @@
-import 'package:body_tune/activities_page.dart';
-import 'package:body_tune/home_page.dart';
 import 'package:body_tune/results_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +31,28 @@ class _ContentMain extends State<QuestionnairePage> {
     this.device = device;
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
 
+    stopRecording();
+  }
+
+  stopRecording() async {
+    print("Data check: " + device.id.toString());
+    List<BluetoothService> services = await device.discoverServices();
+    services.forEach((service) async {
+      if (service.uuid.toString() == 'fc4d0876-ca84-11eb-b8bc-0242ac130003') {
+        var characteristics = service.characteristics;
+        for (BluetoothCharacteristic c in characteristics) {
+          if (c.uuid.toString() == '746cbbe3-ca87-11eb-b8bc-0242ac130003') {
+            await c.write([11]);
+          }
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +67,7 @@ class _ContentMain extends State<QuestionnairePage> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
-          height: MediaQuery
-              .of(context)
-              .size
-              .height * 0.8,
+          height: MediaQuery.of(context).size.height * 0.8,
           decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
           padding: EdgeInsets.all(28.0),
           margin: EdgeInsets.all(40.0),
@@ -187,24 +203,21 @@ class _ContentMain extends State<QuestionnairePage> {
 
   _widgetRegister() {
     return RaisedButton(
-      splashColor: Theme
-          .of(context)
-          .primaryColor,
+      splashColor: Theme.of(context).primaryColor,
       child: Text(
         'RESULTS PAGE',
         style: TextStyle(
           color: Colors.white,
         ),
       ),
-      color: Theme
-          .of(context)
-          .accentColor,
+      color: Theme.of(context).accentColor,
       onPressed: () {
         if (_formKey.currentState.validate()) {
           // if (true) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ResultsPage(device: device)),
+            MaterialPageRoute(
+                builder: (context) => ResultsPage(device: device)),
           );
         }
       },

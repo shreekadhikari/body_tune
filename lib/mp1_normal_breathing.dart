@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:body_tune/helper.dart';
-import 'package:body_tune/mp4_swallowing.dart';
 import 'package:body_tune/mp2_apnea.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

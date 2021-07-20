@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:body_tune/questionnaire_page.dart';
-import 'package:body_tune/results_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -39,7 +38,8 @@ class _ContentMain extends State<Mp5Coughing> {
       if (true) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => QuestionnairePage(device: device)),
+          MaterialPageRoute(
+              builder: (context) => QuestionnairePage(device: device)),
         );
       }
     });

@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:body_tune/bluetooth_page.dart';
 import 'package:body_tune/helper.dart';
 import 'package:body_tune/mp4_swallowing.dart';
-import 'package:body_tune/mp2_apnea.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,7 +35,8 @@ class _Mp3GuidedBreathingState extends State<Mp3GuidedBreathing>
       if (true) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Mp4Swallowing(device: device)),
+          MaterialPageRoute(
+              builder: (context) => Mp4Swallowing(device: device)),
         );
       }
     });

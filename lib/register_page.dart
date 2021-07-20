@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:body_tune/helper.dart';
 import 'package:body_tune/more_info_page.dart';
-import 'package:body_tune/settings_page.dart';
 import 'package:body_tune/user.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -37,7 +35,6 @@ class _ContentMain extends State<RegisterPage> {
   String _dropDownActive;
   String _selectedDate;
   int _selectedHeight;
-
 
   Future _selectDate() async {
     final DateTime picked = await showDatePicker(

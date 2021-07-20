@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:body_tune/questionnaire_page.dart';
 import 'package:body_tune/start_recording_page.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
@@ -194,12 +195,12 @@ class _ContentMain extends State<HomeContent> {
         splashColor: Theme.of(context).accentColor,
         color: CustomColor().primary,
         onPressed: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => BMICalcPage()),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => BMICalcPage()),
+          );
 
-          checkFile();
+          // checkFile();
         },
       ),
     );
@@ -209,31 +210,35 @@ class _ContentMain extends State<HomeContent> {
     var bytes;
     List<String> bytesListString = [];
     List<int> bytesListInt = [];
-    Uint8List bytesUint8;
-    Uint32List bytesUint32;
+    Uint8List bytesUInt8;
+    Uint16List bytesUInt16;
+    Uint32List bytesUInt32;
     String tempPath, filePath;
     try {
       Directory tempDir = await getTemporaryDirectory();
       tempPath = tempDir.path;
       filePath = tempPath + '/your_file_copy.wav';
 
-      // bytes = await rootBundle.load('assets/wav/output.wav');
-      // bytes4 = await bytes.buffer.asUint8List();
+      // bytes = await rootBundle.load('assets/wav/vaibhav_01_Uint16.wav');
 
-      bytes = await rootBundle.loadString('assets/wav/outputUint32.txt');
+      bytes = await rootBundle.loadString('assets/wav/recording_02.txt');
       bytesListString = await (bytes.split(', '));
       for (String s in bytesListString) {
         bytesListInt.add(int.parse(s));
       }
+      bytesUInt8 = Uint8List.fromList(bytesListInt);
+      // bytesUInt16 = Uint16List.fromList(bytesListInt);
+      // bytesUInt32 = Uint32List.fromList(bytesListInt);
 
-      bytesListInt.insert(0, 77);
-      bytesListInt.removeAt(1);
+      // bytesUInt8 = bytes.buffer.asUint8List();
+      // bytesUInt16 = bytes.buffer.asUint16List();
 
-      bytesUint32 = Uint32List.fromList(bytesListInt);
-
-      // File fileWav = await File(filePath).writeAsBytes(bytes4);
-      // File fileString =
-      //     await File(tempPath + '/outputUint32.wav').writeAsBytes(bytesUint32);
+      File fileWav =
+          await File(tempPath + '/recording_02.wav').writeAsBytes(bytesUInt8);
+      // await File(tempPath + '/vaibhav_01_Uint8_Uint8.txt')
+      //     .writeAsString(bytesUInt8.toString());
+      // await File(tempPath + '/vaibhav_01_Uint16_Uint8.txt')
+      //     .writeAsString(bytesUInt16.toString());
       // print("Home Content: File saved");
 
       // final StorageReference storageRef =
@@ -254,10 +259,20 @@ class _ContentMain extends State<HomeContent> {
     // File(tempPath + '/you_file_copy.txt').writeAsString(bytes4.toString());
     // print("Home Content: File saved");
 
-    // debugPrint('HomePage: ' + bytes.buffer.asUint32List().toString());
     debugPrint('HomePage: ' + bytes.toString());
-    debugPrint('HomePage: ' + bytesListString.toString());
     debugPrint('HomePage: ' + bytesListInt.toString());
-    debugPrint('HomePage: ' + bytesUint32.toString());
+    debugPrint('HomePage: ' + bytesListInt.length.toString());
+    debugPrint('HomePage: ' + bytesUInt8.toString());
+    debugPrint('HomePage: ' + bytesUInt8.length.toString());
+    // debugPrint('HomePage: ' + bytesUInt16.toString());
+    // debugPrint('HomePage: ' + bytesUInt16.length.toString());
+    // debugPrint('HomePage: ' + bytesUInt32.toString());
+
+    // debugPrint('HomePage: ' + bytes.buffer.toString());
+    // debugPrint('HomePage: ' + bytesUInt8.length.toString());
+    // debugPrint('HomePage: ' + bytesUInt8.toString());
+    // debugPrint('HomePage: ' + bytesUInt16.length.toString());
+    // debugPrint('HomePage: ' + bytesUInt16.toString());`
+    // debugPrint('HomePage: ' + bytesUInt32.length.toString());
   }
 }

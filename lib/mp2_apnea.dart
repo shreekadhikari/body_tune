@@ -1,8 +1,5 @@
 import 'dart:async';
 
-import 'package:body_tune/bmicalc_page.dart';
-import 'package:body_tune/home_page.dart';
-import 'package:body_tune/mp1_normal_breathing.dart';
 import 'package:body_tune/mp3_guided_breathing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +38,8 @@ class _ContentMain extends State<Mp2Apnea> {
       if (true) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Mp3GuidedBreathing(device: device)),
+          MaterialPageRoute(
+              builder: (context) => Mp3GuidedBreathing(device: device)),
         );
       }
     });

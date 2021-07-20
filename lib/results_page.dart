@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:body_tune/bluetooth_page.dart';
 import 'package:body_tune/home_page.dart';
 import 'package:body_tune/test.dart';
 import 'package:body_tune/user.dart';
@@ -35,16 +34,16 @@ class _ContentMain extends State<ResultsPage> {
   StorageReference storageRef;
   String bmiLast;
   BluetoothDevice device;
-  List<int> data;
+  List<int> data = [];
   String tempPath;
   String dateTime;
   List<String> listResult;
   List<String> listDate;
   UserInfo userInfo;
+  bool dataReceivedFinished = false;
 
   _ContentMain(BluetoothDevice device) {
     this.device = device;
-    print('Results page: ${device.id}');
   }
 
   @override
@@ -66,8 +65,6 @@ class _ContentMain extends State<ResultsPage> {
     listDate = preferences.getStringList(SPText().testDateList);
     userInfo = UserInfo.fromJson(jsonDecode(userString));
 
-    data = CustomText().wavBuffer;
-
     List<BluetoothService> services = await device.discoverServices();
 
     services.forEach((service) async {
@@ -75,22 +72,34 @@ class _ContentMain extends State<ResultsPage> {
         var characteristics = service.characteristics;
         for (BluetoothCharacteristic c in characteristics) {
           if (c.uuid.toString() == '746cbbe2-ca87-11eb-b8bc-0242ac130003') {
-            List<int> oldValue, newValue;
-            do {
-              oldValue = newValue;
-              newValue = await c.read();
-              if (oldValue == newValue) break;
-              data.addAll(newValue);
-              print("Results Page ReceivedInt: ${newValue.length.toString()}");
-              print("Results Page TotalInt: ${data.length.toString()}");
-            } while (newValue != oldValue);
+            List<int> newValue = [];
 
-            for (int i = 0; i < 44; i++) {
-              int last = data.length - 1;
-              int temp = data[last];
-              data.insert(0, temp);
-              data.remove(last);
+            int i = 0;
+            while (true) {
+              newValue = await c.read();
+              data.addAll(newValue);
+              print('ReceivedInt $i: ${newValue.length.toString()}');
+              print('TotalInt $i: ${data.length.toString()}');
+              print('TotalInt $i: ${newValue.toString()}');
+              i++;
+              if (newValue.length == 44) {
+                break;
+              }
             }
+
+            print('Before Length: ${data.length}');
+            print('Before Data: $data');
+
+            List<int> headers = data.sublist(data.length - 44, data.length);
+            data.removeRange(data.length - 44, data.length);
+            data = headers..addAll(data);
+
+            print('After Length: ${data.length}');
+            print('After Data: $data');
+
+            setState(() {
+              dataReceivedFinished = true;
+            });
           }
         }
       }
@@ -103,6 +112,7 @@ class _ContentMain extends State<ResultsPage> {
         Uint8List wavData = Uint8List.fromList(data);
 
         File wavFile = await File(filePath).writeAsBytes(wavData);
+        await File(tempPath + '/recording.txt').writeAsString(data.toString());
 
         dateTime =
             DateFormat("yyyy-MM-dd hh:mm").format(DateTime.now()).toString();
@@ -122,84 +132,107 @@ class _ContentMain extends State<ResultsPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return WillPopScope(
-        child: _widgetContent(),
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              'Results',
+              textAlign: TextAlign.center,
+              // style: textHeading1(context),
+            ),
+            automaticallyImplyLeading: false,
+          ),
+          body: !dataReceivedFinished
+              ? _widgetContentAlternate()
+              : _widgetContent(),
+        ),
         onWillPop: () async {
           return true;
         });
   }
 
-  _widgetContent() {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Results',
-          textAlign: TextAlign.center,
-          // style: textHeading1(context),
-        ),
-        automaticallyImplyLeading: false,
+  _widgetContentAlternate() {
+    return Container(
+      padding: EdgeInsets.all(40.0),
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text('Receiving data from bluetooth. Please do not exit the app.'),
+          Container(
+            height: 24,
+          ),
+          LinearProgressIndicator(
+            color: Theme.of(context).accentColor,
+            backgroundColor: Colors.white,
+            minHeight: 5,
+          )
+        ],
       ),
-      body: Container(
-        padding: EdgeInsets.all(40.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              // alignment: Alignment.center,
-              child: Text(
-                'Congratulations!!',
-                style: TextStyle(fontSize: 36, color: CustomColor().accent),
-              ),
+    );
+  }
+
+  _widgetContent() {
+    return Container(
+      padding: EdgeInsets.all(40.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            child: Text(
+              'Congratulations!!',
+              style: TextStyle(fontSize: 36, color: CustomColor().accent),
             ),
-            Spacer(),
-            Text(
-              'Heart Rate:',
-              style: TextStyle(
-                fontSize: 36,
-                color: Colors.grey,
-                fontFamily: 'Arial',
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
-              ),
+          ),
+          Spacer(),
+          Text(
+            'Heart Rate:',
+            style: TextStyle(
+              fontSize: 36,
+              color: Colors.grey,
+              fontFamily: 'Arial',
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.bold,
             ),
-            Spacer(
-              flex: 2,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              // crossAxisAlignment: CrossAxisAlignment.baseline,
-              children: [
-                Text(
-                  '80',
-                  style: TextStyle(
-                    fontSize: 160,
-                    // color: Colors.grey,
-                    fontFamily: 'Arial',
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
-                  ),
+          ),
+          Spacer(
+            flex: 2,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.baseline,
+            children: [
+              Text(
+                '80',
+                style: TextStyle(
+                  fontSize: 160,
+                  // color: Colors.grey,
+                  fontFamily: 'Arial',
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
                 ),
-                Text(
-                  'BPM',
-                  style: TextStyle(
-                    fontSize: 36,
-                    // color: Colors.grey,
-                    fontFamily: 'Arial',
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-              ],
-            ),
-            Container(
-              margin: EdgeInsets.all(20.0),
-              child: Text('Your Last BMI Index: $bmiLast'),
-            ),
-            Spacer(
-              flex: 3,
-            ),
-            _widgetRaisedButton()
-          ],
-        ),
+              ),
+              Text(
+                'BPM',
+                style: TextStyle(
+                  fontSize: 36,
+                  // color: Colors.grey,
+                  fontFamily: 'Arial',
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+            ],
+          ),
+          Container(
+            margin: EdgeInsets.all(20.0),
+            child: Text('Your Last BMI Index: $bmiLast'),
+          ),
+          Spacer(
+            flex: 3,
+          ),
+          _widgetRaisedButton()
+        ],
       ),
     );
   }

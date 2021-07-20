@@ -1,5 +1,4 @@
 import 'package:body_tune/activities_page.dart';
-import 'package:body_tune/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +34,6 @@ class _ContentMain extends State<MoreInfoPage> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
-
           decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
           padding: EdgeInsets.all(28.0),
           margin: EdgeInsets.all(40.0),
